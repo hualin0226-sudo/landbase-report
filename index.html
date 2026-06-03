@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LANDBASE 競品名次月報</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#16130d;
+    --ink-soft:#3a352b;
+    --paper:#f7f3ec;
+    --paper-2:#efe9de;
+    --card:#fffdf9;
+    --line:#ddd4c4;
+    --gold:#b3892f;
+    --gold-deep:#8c6618;
+    --up:#2f7d52;
+    --down:#bb3b2e;
+    --muted:#8a8273;
+    --shadow:0 1px 2px rgba(22,19,13,.04),0 8px 24px -12px rgba(22,19,13,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Noto Sans TC",sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+
+  /* ---------- Header ---------- */
+  header.masthead{
+    background:var(--ink);
+    color:var(--paper);
+    border-bottom:3px solid var(--gold);
+    position:relative;
+    overflow:hidden;
+  }
+  header.masthead::after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(120% 90% at 85% -10%, rgba(179,137,47,.22), transparent 55%),
+      repeating-linear-gradient(135deg, rgba(255,255,255,.012) 0 2px, transparent 2px 7px);
+    pointer-events:none;
+  }
+  .masthead .wrap{padding-top:34px;padding-bottom:40px;position:relative;z-index:1}
+  .brandrow{display:flex;align-items:center;gap:14px;margin-bottom:30px}
+  .brandmark{
+    font-family:"Noto Serif TC",serif;font-weight:900;letter-spacing:.18em;
+    font-size:13px;color:var(--gold);text-transform:uppercase;
+    border:1px solid rgba(179,137,47,.5);padding:7px 13px;border-radius:2px;
+  }
+  .brandlogo{height:46px;width:auto;display:block}
+  .brandname{font-size:13px;letter-spacing:.32em;color:#cfc6b3;font-weight:300}
+  .eyebrow{font-size:12px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;font-weight:500;margin-bottom:14px}
+  h1.title{
+    font-family:"Noto Serif TC",serif;font-weight:900;
+    font-size:clamp(34px,6vw,58px);line-height:1.05;letter-spacing:.01em;
+    margin-bottom:18px;
+  }
+  .subline{color:#d8cfbd;font-weight:300;max-width:62ch;font-size:15.5px}
+  .metarow{
+    display:flex;flex-wrap:wrap;gap:26px;margin-top:26px;
+    padding-top:22px;border-top:1px solid rgba(255,255,255,.12);
+  }
+  .metarow .m b{display:block;font-family:"IBM Plex Mono",monospace;font-size:20px;color:var(--paper);font-weight:600}
+  .metarow .m span{font-size:11px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
+
+  /* ---------- Tab nav ---------- */
+  nav.tabs{position:sticky;top:0;z-index:50;background:rgba(247,243,236,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  nav.tabs .wrap{display:flex;gap:4px;flex-wrap:wrap}
+  .tab{
+    appearance:none;background:none;border:none;cursor:pointer;
+    font-family:"Noto Serif TC",serif;font-weight:700;font-size:15px;color:var(--muted);
+    padding:18px 18px 15px;border-bottom:3px solid transparent;transition:.18s;
+  }
+  .tab:hover{color:var(--ink-soft)}
+  .tab.active{color:var(--ink);border-bottom-color:var(--gold)}
+  .tab small{display:block;font-family:"Noto Sans TC";font-weight:400;font-size:10.5px;letter-spacing:.18em;color:var(--gold-deep);text-transform:uppercase;margin-top:3px}
+
+  /* ---------- Section ---------- */
+  section.panel{display:none;padding:48px 0 40px}
+  section.panel.active{display:block;animation:fade .4s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .panelhead{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:8px}
+  .panelhead h2{font-family:"Noto Serif TC",serif;font-size:30px;font-weight:900}
+  .panelhead .plat{font-size:11px;letter-spacing:.3em;color:var(--gold-deep);text-transform:uppercase;font-weight:500;margin-bottom:6px}
+  .panelhead .when{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted);text-align:right}
+  .panelhead .when b{color:var(--ink);font-weight:600}
+
+  /* sub-toggle (reel hot) */
+  .subtoggle{display:inline-flex;background:var(--paper-2);border:1px solid var(--line);border-radius:3px;padding:3px;margin:22px 0 4px}
+  .subtoggle button{
+    appearance:none;border:none;background:none;cursor:pointer;font-family:"Noto Sans TC";font-weight:500;
+    font-size:13.5px;color:var(--ink-soft);padding:7px 18px;border-radius:2px;transition:.15s;
+  }
+  .subtoggle button.on{background:var(--ink);color:var(--paper)}
+
+  /* block scaffolding */
+  .block{margin-top:40px}
+  .block-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .block-eyebrow .num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--gold-deep);font-weight:600}
+  .block-eyebrow h3{font-family:"Noto Serif TC",serif;font-size:21px;font-weight:700}
+  .block-eyebrow .rule{flex:1;height:1px;background:var(--line)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:5px;box-shadow:var(--shadow)}
+  .chartcard{padding:22px 22px 14px}
+  .chartwrap{position:relative;height:340px}
+  .chartnote{font-size:12px;color:var(--muted);margin-top:10px;text-align:right}
+
+  /* entries / dropouts */
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:720px){.twocol{grid-template-columns:1fr}}
+  .listcard{padding:20px 22px}
+  .listcard .lc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .listcard .lc-head .tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;padding:4px 10px;border-radius:2px}
+  .tag.in{background:rgba(47,125,82,.12);color:var(--up)}
+  .tag.out{background:rgba(187,59,46,.1);color:var(--down)}
+  .listcard .lc-head .cnt{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted)}
+  .gameline{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px dashed var(--line)}
+  .gameline:first-of-type{border-top:none}
+  .gameline .rk{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:15px;min-width:34px;text-align:center;padding:3px 0;border-radius:3px}
+  .rk.in{background:rgba(47,125,82,.1);color:var(--up)}
+  .rk.out{background:rgba(187,59,46,.08);color:var(--down)}
+  .gameline .gn{font-weight:500;font-size:14.5px;flex:1}
+  .gameline .sp{font-size:12px;color:var(--muted)}
+  .emptyline{color:var(--muted);font-size:13.5px;padding:8px 0;font-style:italic}
+
+  /* AI analysis */
+  .analysis{padding:24px 26px;border-left:3px solid var(--gold);position:relative}
+  .analysis .ai-badge{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin-bottom:12px}
+  .analysis .ai-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
+  .analysis p{font-size:15px;color:var(--ink-soft);margin-bottom:11px}
+  .analysis p:last-child{margin-bottom:0}
+  .analysis strong{color:var(--ink);font-weight:700}
+
+  /* table */
+  .tablecard{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  thead th{
+    background:var(--ink);color:var(--paper);font-weight:500;text-align:left;
+    padding:11px 13px;white-space:nowrap;font-size:12px;letter-spacing:.04em;position:sticky;top:0;
+  }
+  thead th.n{text-align:right}
+  tbody td{padding:10px 13px;border-bottom:1px solid var(--line);white-space:nowrap}
+  tbody tr:nth-child(even){background:rgba(239,233,222,.4)}
+  tbody tr:hover{background:rgba(179,137,47,.07)}
+  td.n{font-family:"IBM Plex Mono",monospace;text-align:right;font-variant-numeric:tabular-nums}
+  td.name{font-weight:500;white-space:normal;min-width:160px}
+  .rankcell{display:flex;align-items:center;gap:8px;justify-content:flex-start}
+  .rankcol{width:130px}
+  .rankcell .rnum{font-family:"IBM Plex Mono",monospace;font-weight:600}
+  .delta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:600;min-width:42px;text-align:right}
+  .delta.up{color:var(--up)}.delta.down{color:var(--down)}.delta.flat{color:var(--muted)}.delta.new{color:var(--gold-deep)}
+
+  footer{border-top:1px solid var(--line);margin-top:30px;padding:28px 0 60px;color:var(--muted);font-size:12.5px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer b{color:var(--ink-soft);font-family:"IBM Plex Mono",monospace;font-weight:500}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="brandrow">
+      <img id="brandlogo" class="brandlogo" alt="傳奇亞太科技" style="display:none">
+      <span class="brandmark" id="brandmark">傳奇亞太科技</span>
+      <span class="brandname" id="brandname">ALPHABET · LANDBASE INTELLIGENCE</span>
+    </div>
+    <div class="eyebrow" id="eyebrow">競品名次月報</div>
+    <h1 class="title" id="reportTitle">LANDBASE 競品名次月報</h1>
+    <p class="subline" id="subline">每月彙整 EILERS &amp; FANTINI 與 REEL HOT 兩大平台的現場遊戲名次表現,追蹤新進榜、落榜、名次升降與供應商版圖變化。</p>
+    <div class="metarow" id="metarow"></div>
+  </div>
+</header>
+
+<nav class="tabs"><div class="wrap" id="tabbar"></div></nav>
+
+<main id="main"></main>
+
+<footer><div class="wrap">
+  <span>傳奇亞太科技 · LANDBASE Intelligence</span>
+  <span>產製時間 <b id="genAt">—</b></span>
+</div></footer>
+
+<script>
+/* =====================================================================
+   報表資料來源
+   ---------------------------------------------------------------------
+   ▸ 部署到 GitHub Pages 時,把下方 SAMPLE_DATA 換成由 Apps Script 產出的
+     report.json,並改用:  const DATA = await fetch('./report.json').then(r=>r.json());
+   ▸ 目前內嵌範例資料,讓模板可獨立預覽。JSON 結構即下方物件的結構。
+   ===================================================================== */
+const SAMPLE_DATA = {
+  generatedAt: "2026-06-02T09:30:00+08:00",
+  brand: { name: "傳奇亞太科技", tagline: "ALPHABET · LANDBASE INTELLIGENCE", eyebrow: "競品名次月報",
+           logo: "./logo.png",
+           reportTitle: "LANDBASE 競品名次月報",
+           subline: "每月彙整 EILERS & FANTINI 與 REEL HOT 兩大平台的現場遊戲名次表現,追蹤新進榜、落榜、名次升降與供應商版圖變化。" },
+  meta: [
+    { label: "報告月份", value: "2026-05" },
+    { label: "涵蓋平台", value: "2" },
+    { label: "遊戲類別", value: "3" }
+  ],
+  sections: [
+    {
+      id: "core", title: "Core Low Denom", platform: "EILERS & FANTINI",
+      datasets: [{
+        label: null, latestMonth: "2026-04", compareMonth: "2026-03", year: "2026",
+        chart: {
+          months: ["2026-01","2026-02","2026-03","2026-04"],
+          series: [
+            { name: "Buffalo Gold Revolution", ranks: [3,2,2,1] },
+            { name: "Dragon Link Autumn Moon", ranks: [1,1,1,2] },
+            { name: "Lightning Link Sahara Gold", ranks: [5,4,3,3] },
+            { name: "Lock It Link Nightlife", ranks: [4,5,5,4] },
+            { name: "88 Fortunes Diamond", ranks: [8,6,4,5] }
+          ]
+        },
+        newEntries: [
+          { rank: 7, name: "Cash Connection Egyptian", supplier: "Novomatic" },
+          { rank: 12, name: "Mighty Cash Wild Bison", supplier: "Aristocrat" },
+          { rank: 18, name: "Tiki Fire Lightning", supplier: "Aristocrat" }
+        ],
+        dropouts: [
+          { prevRank: 11, name: "Jin Ji Bao Xi Endless", supplier: "Light & Wonder" },
+          { prevRank: 16, name: "Golden Egypt Grand", supplier: "IGT" }
+        ],
+        analysis: {
+          month: "<p>本月 <strong>Buffalo Gold Revolution</strong> 自上月第 2 名躍升至榜首,Aristocrat 在 Core Low Denom 區段的低面額機海策略持續奏效。原冠軍 <strong>Dragon Link Autumn Moon</strong> 微幅滑落至第 2,差距僅在毫釐之間。</p><p>新進榜以 <strong>Novomatic 的 Cash Connection Egyptian</strong> 最受矚目,首登即進第 7 名,顯示其在地化主題對賭場端具吸引力。落榜的兩款皆為上架逾 18 個月的舊機,屬自然汰換。</p>",
+          trend: "<p>近三個月 Core Low Denom 前段班高度集中於 <strong>Aristocrat</strong>(前五名占三席),Light & Wonder 與 IGT 則在中段角力。</p><p><strong>88 Fortunes Diamond</strong> 自一月第 8 名一路爬升,三月觸頂第 4 後本月小幅回落,動能趨緩值得觀察;<strong>Lightning Link Sahara Gold</strong> 則呈穩定上行,是供應端最具續航力的機種。整體名次波動收斂,前五名格局漸趨穩定。</p>"
+        },
+        table: {
+          columns: [
+            {key:"rank",label:"排名",type:"rank"},{key:"name",label:"遊戲名稱",type:"name"},
+            {key:"supplier",label:"供應商",type:"text"},{key:"casinos",label:"賭場數",type:"num"},
+            {key:"machines",label:"機台數",type:"num"},{key:"idxAll",label:"指數(全場)",type:"num"},
+            {key:"idxRegion",label:"指數(區域)",type:"num"},{key:"avgBet",label:"平均投注($)",type:"money"},
+            {key:"days",label:"上架天數",type:"num"}
+          ],
+          rows: [
+            {rank:1,prevRank:2,name:"Buffalo Gold Revolution",supplier:"Aristocrat",casinos:142,machines:1880,idxAll:2.41,idxRegion:1.92,avgBet:1.85,days:312},
+            {rank:2,prevRank:1,name:"Dragon Link Autumn Moon",supplier:"Aristocrat",casinos:138,machines:1760,idxAll:2.33,idxRegion:1.88,avgBet:2.10,days:540},
+            {rank:3,prevRank:3,name:"Lightning Link Sahara Gold",supplier:"Aristocrat",casinos:129,machines:1520,idxAll:2.05,idxRegion:1.71,avgBet:1.70,days:421},
+            {rank:4,prevRank:5,name:"Lock It Link Nightlife",supplier:"Light & Wonder",casinos:118,machines:1390,idxAll:1.92,idxRegion:1.60,avgBet:1.55,days:610},
+            {rank:5,prevRank:4,name:"88 Fortunes Diamond",supplier:"Light & Wonder",casinos:121,machines:1410,idxAll:1.88,idxRegion:1.58,avgBet:1.48,days:388},
+            {rank:6,prevRank:8,name:"Ultimate Fire Link China Street",supplier:"Light & Wonder",casinos:104,machines:1180,idxAll:1.74,idxRegion:1.45,avgBet:1.40,days:455},
+            {rank:7,prevRank:null,name:"Cash Connection Egyptian",supplier:"Novomatic",casinos:88,machines:940,idxAll:1.61,idxRegion:1.38,avgBet:1.32,days:42},
+            {rank:8,prevRank:7,name:"Wheel of Fortune Triple Gold",supplier:"IGT",casinos:96,machines:1020,idxAll:1.55,idxRegion:1.30,avgBet:1.25,days:705},
+            {rank:9,prevRank:9,name:"Money Link Eastern Treasures",supplier:"Aristocrat",casinos:91,machines:980,idxAll:1.48,idxRegion:1.24,avgBet:1.20,days:268},
+            {rank:10,prevRank:6,name:"Fu Dao Le Prosperity",supplier:"Light & Wonder",casinos:84,machines:910,idxAll:1.41,idxRegion:1.19,avgBet:1.15,days:512}
+          ]
+        }
+      }]
+    },
+    {
+      id: "premium", title: "Premium Leased", platform: "EILERS & FANTINI",
+      datasets: [{
+        label: null, latestMonth: "2026-04", compareMonth: "2026-03", year: "2026",
+        chart: {
+          months: ["2026-01","2026-02","2026-03","2026-04"],
+          series: [
+            { name: "MONOPOLY Big Board Bucks", ranks: [null,null,null,1] },
+            { name: "Dragon Link Premium", ranks: [1,1,2,2] },
+            { name: "Spooky Link", ranks: [2,3,3,3] },
+            { name: "Phoenix Link", ranks: [4,2,1,4] },
+            { name: "Bao Zhu Zhao Fu", ranks: [3,4,4,5] }
+          ]
+        },
+        newEntries: [
+          { rank: 1, name: "MONOPOLY Big Board Bucks", supplier: "Aristocrat" },
+          { rank: 9, name: "Huff N' Puff More Money Mansion", supplier: "Light & Wonder" }
+        ],
+        dropouts: [
+          { prevRank: 8, name: "Frankenstein Fortune", supplier: "Light & Wonder" }
+        ],
+        analysis: {
+          month: "<p>本月最大事件為 Aristocrat 新機 <strong>MONOPOLY Big Board Bucks</strong> 首登即奪冠,展現 Premium IP 在租賃區段的爆發力,並將原榜首 Dragon Link Premium 擠至第 2。</p><p>Aristocrat 本月於前五名包辦四席,租賃市場主導地位明顯。Light & Wonder 則以 <strong>Huff N' Puff More Money Mansion</strong> 新進第 9 名守住中段。</p>",
+          trend: "<p>近三個月 Premium Leased 呈現 <strong>Aristocrat 一家獨大</strong> 的格局,Phoenix Link 曾於三月短暫登頂,本月隨新機上市回落至第 4。</p><p>整體前五名換手頻繁,反映 Premium 區段對「新機首發」高度敏感 —— 每有重量級 IP 上市便重塑排名,建議持續緊盯競品新機發布節奏。</p>"
+        },
+        table: {
+          columns: [
+            {key:"rank",label:"排名",type:"rank"},{key:"name",label:"遊戲名稱",type:"name"},
+            {key:"supplier",label:"供應商",type:"text"},{key:"casinos",label:"賭場數",type:"num"},
+            {key:"machines",label:"機台數",type:"num"},{key:"idxAll",label:"指數(全場)",type:"num"},
+            {key:"idxRegion",label:"指數(區域)",type:"num"},{key:"avgBet",label:"平均投注($)",type:"money"},
+            {key:"days",label:"上架天數",type:"num"}
+          ],
+          rows: [
+            {rank:1,prevRank:null,name:"MONOPOLY Big Board Bucks",supplier:"Aristocrat",casinos:76,machines:520,idxAll:3.82,idxRegion:3.10,avgBet:5.20,days:28},
+            {rank:2,prevRank:2,name:"Dragon Link Premium",supplier:"Aristocrat",casinos:110,machines:880,idxAll:3.45,idxRegion:2.88,avgBet:4.80,days:680},
+            {rank:3,prevRank:3,name:"Spooky Link",supplier:"Aristocrat",casinos:98,machines:760,idxAll:3.12,idxRegion:2.60,avgBet:4.50,days:240},
+            {rank:4,prevRank:1,name:"Phoenix Link",supplier:"Aristocrat",casinos:102,machines:790,idxAll:3.05,idxRegion:2.55,avgBet:4.40,days:198},
+            {rank:5,prevRank:4,name:"Bao Zhu Zhao Fu",supplier:"Aristocrat",casinos:94,machines:710,idxAll:2.88,idxRegion:2.40,avgBet:4.20,days:355},
+            {rank:6,prevRank:6,name:"Buffalo Diamond Forever",supplier:"Aristocrat",casinos:89,machines:680,idxAll:2.65,idxRegion:2.20,avgBet:4.00,days:430},
+            {rank:7,prevRank:5,name:"Rich Little Piggies Meal Ticket",supplier:"Light & Wonder",casinos:81,machines:600,idxAll:2.40,idxRegion:2.02,avgBet:3.80,days:512},
+            {rank:8,prevRank:7,name:"Coin Combo Fortune",supplier:"Light & Wonder",casinos:74,machines:540,idxAll:2.21,idxRegion:1.86,avgBet:3.60,days:288},
+            {rank:9,prevRank:null,name:"Huff N' Puff More Money Mansion",supplier:"Light & Wonder",casinos:62,machines:420,idxAll:2.05,idxRegion:1.72,avgBet:3.40,days:35},
+            {rank:10,prevRank:9,name:"Wheel of Fortune 4D",supplier:"IGT",casinos:70,machines:500,idxAll:1.95,idxRegion:1.64,avgBet:3.30,days:620}
+          ]
+        }
+      }]
+    },
+    {
+      id: "reel", title: "REEL HOT", platform: "REEL HOT",
+      datasets: [
+        {
+          label: "Premium Video", latestMonth: "2026-04", compareMonth: "2026-01", year: "2026",
+          chart: {
+            months: ["2026-01","2026-04"],
+            series: [
+              { name: "Wonder 4 Boost Gold", ranks: [2,1] },
+              { name: "Dancing Drums Explosion", ranks: [1,2] },
+              { name: "Ocean Magic Grand", ranks: [3,3] },
+              { name: "Cleopard Spots Reborn", ranks: [5,4] },
+              { name: "Mystical Temple Link", ranks: [4,5] }
+            ]
+          },
+          newEntries: [ { rank: 8, name: "Reel Riches Fortune Age", supplier: "IGT" } ],
+          dropouts: [ { prevRank: 7, name: "Star Watch Magma", supplier: "IGT" } ],
+          analysis: {
+            month: "<p>Premium Video 每季更新一次,本月為更新月。<strong>Wonder 4 Boost Gold</strong> 自第 2 升至榜首,與 Dancing Drums Explosion 完成交棒。</p><p>新進的 <strong>Reel Riches Fortune Age</strong> 以第 8 名登場,IGT 在 Premium Video 區段維持穩定供給。</p>",
+            trend: "<p>由於 Premium Video 每三個月才更新,近三個資料點(1 月、4 月)顯示前五名以 <strong>Light & Wonder</strong> 與 <strong>IGT</strong> 平分秋色。</p><p>前段名次互換幅度小、黏著度高,反映 Premium Video 屬長銷型機種,汰換速度遠慢於 EILERS Premium Leased。</p>"
+          },
+          table: {
+            columns: [
+              {key:"rank",label:"Rank",type:"rank"},{key:"title",label:"Title",type:"name"},
+              {key:"supplier",label:"Supplier",type:"text"},{key:"isr",label:"ISR",type:"num"},
+              {key:"gp",label:"GP",type:"num"},{key:"tw",label:"TW",type:"num"},{key:"avgBet",label:"Avg Bet",type:"money"}
+            ],
+            rows: [
+              {rank:1,prevRank:2,title:"Wonder 4 Boost Gold",supplier:"Aristocrat",isr:1.42,gp:312,tw:0.88,avgBet:2.40},
+              {rank:2,prevRank:1,title:"Dancing Drums Explosion",supplier:"Light & Wonder",isr:1.38,gp:298,tw:0.85,avgBet:2.30},
+              {rank:3,prevRank:3,title:"Ocean Magic Grand",supplier:"IGT",isr:1.25,gp:271,tw:0.79,avgBet:2.10},
+              {rank:4,prevRank:5,title:"Cleopard Spots Reborn",supplier:"Light & Wonder",isr:1.18,gp:255,tw:0.74,avgBet:2.00},
+              {rank:5,prevRank:4,title:"Mystical Temple Link",supplier:"Aristocrat",isr:1.12,gp:240,tw:0.70,avgBet:1.90},
+              {rank:6,prevRank:6,title:"Golden Pharaoh Riches",supplier:"IGT",isr:1.05,gp:226,tw:0.66,avgBet:1.80},
+              {rank:7,prevRank:8,title:"Triple Fortune Dragon",supplier:"IGT",isr:0.98,gp:210,tw:0.62,avgBet:1.70},
+              {rank:8,prevRank:null,title:"Reel Riches Fortune Age",supplier:"IGT",isr:0.92,gp:198,tw:0.58,avgBet:1.60}
+            ]
+          }
+        },
+        {
+          label: "Core Video", latestMonth: "2026-05", compareMonth: "2026-04", year: "2026",
+          chart: {
+            months: ["2026-01","2026-02","2026-03","2026-04","2026-05"],
+            series: [
+              { name: "Buffalo Link Classic", ranks: [1,1,1,1,1] },
+              { name: "Quick Hit Platinum", ranks: [2,3,2,2,2] },
+              { name: "Cleopatra Reels", ranks: [4,2,3,3,3] },
+              { name: "Golden Goddess Reborn", ranks: [3,4,4,5,4] },
+              { name: "Wolf Run Eclipse", ranks: [6,5,5,4,5] }
+            ]
+          },
+          newEntries: [
+            { rank: 10, name: "Pixies of the Forest Wild", supplier: "IGT" },
+            { rank: 14, name: "Da Vinci Diamonds Eternal", supplier: "IGT" }
+          ],
+          dropouts: [ { prevRank: 13, name: "Cats Royale", supplier: "IGT" } ],
+          analysis: {
+            month: "<p>Core Video 本月(更新月)維持 <strong>Buffalo Link Classic</strong> 連續五個月霸榜,前三名格局穩固。</p><p>兩款 IGT 新機進榜,顯示 IGT 在 Core Video 持續以經典 IP 重製策略補充榜單。</p>",
+            trend: "<p>近三個月 Core Video 名次極為穩定,前三名幾無變動,<strong>Buffalo Link Classic</strong> 自年初起未曾讓出榜首。</p><p>中段(第 4–6 名)則由 Cleopatra Reels、Golden Goddess Reborn、Wolf Run Eclipse 輪動,屬正常微幅波動,無明顯結構性轉變。</p>"
+          },
+          table: {
+            columns: [
+              {key:"rank",label:"Rank",type:"rank"},{key:"title",label:"Title",type:"name"},
+              {key:"supplier",label:"Supplier",type:"text"},{key:"isr",label:"ISR",type:"num"},
+              {key:"gp",label:"GP",type:"num"},{key:"tw",label:"TW",type:"num"},{key:"avgBet",label:"Avg Bet",type:"money"}
+            ],
+            rows: [
+              {rank:1,prevRank:1,title:"Buffalo Link Classic",supplier:"Aristocrat",isr:1.30,gp:288,tw:0.82,avgBet:1.20},
+              {rank:2,prevRank:2,title:"Quick Hit Platinum",supplier:"Light & Wonder",isr:1.22,gp:265,tw:0.77,avgBet:1.15},
+              {rank:3,prevRank:3,title:"Cleopatra Reels",supplier:"IGT",isr:1.15,gp:248,tw:0.72,avgBet:1.10},
+              {rank:4,prevRank:5,title:"Golden Goddess Reborn",supplier:"IGT",isr:1.08,gp:232,tw:0.68,avgBet:1.05},
+              {rank:5,prevRank:4,title:"Wolf Run Eclipse",supplier:"IGT",isr:1.02,gp:218,tw:0.64,avgBet:1.00},
+              {rank:6,prevRank:6,title:"Lobstermania Tidal",supplier:"IGT",isr:0.95,gp:205,tw:0.60,avgBet:0.95},
+              {rank:7,prevRank:7,title:"Texas Tea Gusher",supplier:"IGT",isr:0.90,gp:194,tw:0.56,avgBet:0.90},
+              {rank:8,prevRank:9,title:"Kitty Glitter Royale",supplier:"IGT",isr:0.85,gp:182,tw:0.53,avgBet:0.85},
+              {rank:9,prevRank:8,title:"Coyote Moon Wild",supplier:"IGT",isr:0.80,gp:171,tw:0.50,avgBet:0.80},
+              {rank:10,prevRank:null,title:"Pixies of the Forest Wild",supplier:"IGT",isr:0.75,gp:160,tw:0.47,avgBet:0.75}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+};
+
+/* ============================ Render ============================ */
+let DATA = SAMPLE_DATA;            // 開啟時會嘗試讀取 ./report.json,讀不到才用此內建範例
+const fmt = {
+  money:v=>v==null?"—":"$"+Number(v).toFixed(2),
+  num:v=>v==null?"—":(Number.isInteger(v)?v.toLocaleString():Number(v).toFixed(2)),
+};
+const charts = {};
+
+function deltaCell(rank, prev){
+  if(prev==null) return `<span class="delta new">NEW</span>`;
+  const d = prev - rank;
+  if(d>0) return `<span class="delta up">▲ ${d}</span>`;
+  if(d<0) return `<span class="delta down">▼ ${Math.abs(d)}</span>`;
+  return `<span class="delta flat">—</span>`;
+}
+
+function blockEyebrow(num,title){
+  return `<div class="block-eyebrow"><span class="num">${num}</span><h3>${title}</h3><span class="rule"></span></div>`;
+}
+
+const FIXED_COLS=[{label:"排名"},{label:"遊戲名稱"},{label:"供應商"}];
+function renderTable(ds){
+  const head=FIXED_COLS.map(c=>`<th>${c.label}</th>`).join("");
+  const body=ds.table.rows.map(r=>{
+    const name=r.name??r.title??"—";
+    return `<tr>`
+      +`<td class="rankcol"><span class="rankcell"><span class="rnum">${r.rank}</span>${deltaCell(r.rank,r.prevRank)}</span></td>`
+      +`<td class="name">${name}</td>`
+      +`<td>${r.supplier??"—"}</td>`
+      +`</tr>`;
+  }).join("");
+  return `<div class="card tablecard"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+
+function renderList(items,kind){
+  const isIn = kind==="in";
+  if(!items||!items.length) return `<p class="emptyline">本月無${isIn?"新進榜":"落榜"}遊戲</p>`;
+  return items.map(g=>{
+    const rk = isIn ? g.rank : g.prevRank;
+    const nm = g.name || g.title;
+    return `<div class="gameline"><span class="rk ${kind}">${rk}</span><span class="gn">${nm}</span><span class="sp">${g.supplier||""}</span></div>`;
+  }).join("");
+}
+
+function renderDataset(ds,uid){
+  const subtitle = ds.label ? `<div class="panelhead"><div></div><div class="when">最新 <b>${ds.latestMonth}</b> · 比較 <b>${ds.compareMonth}</b></div></div>` : "";
+  return `
+    ${subtitle}
+    <div class="block">
+      ${blockEyebrow("01","當年度前 5 名名次走勢")}
+      <div class="card chartcard">
+        <div class="chartwrap"><canvas id="chart-${uid}"></canvas></div>
+        <div class="chartnote">縱軸為名次(越上方名次越前) · 取 ${ds.year} 年資料,依最新月前 5 名繪製</div>
+      </div>
+    </div>
+    <div class="block">
+      ${blockEyebrow("02 · 03","本月進出榜")}
+      <div class="twocol">
+        <div class="card listcard">
+          <div class="lc-head"><span class="tag in">新進榜</span><span class="cnt">${(ds.newEntries||[]).length} 款</span></div>
+          ${renderList(ds.newEntries,"in")}
+        </div>
+        <div class="card listcard">
+          <div class="lc-head"><span class="tag out">落榜</span><span class="cnt">${(ds.dropouts||[]).length} 款</span></div>
+          ${renderList(ds.dropouts,"out")}
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      ${blockEyebrow("04","本月名次 AI 分析")}
+      <div class="card analysis"><div class="ai-badge">AI 生成分析 · 本月</div>${ds.analysis.month}</div>
+    </div>
+    <div class="block">
+      ${blockEyebrow("05","近三個月名次 AI 分析")}
+      <div class="card analysis"><div class="ai-badge">AI 生成分析 · 近三月趨勢</div>${ds.analysis.trend}</div>
+    </div>
+    <div class="block">
+      ${blockEyebrow("06","詳細遊戲排名列表")}
+      ${renderTable(ds)}
+    </div>`;
+}
+
+function drawChart(uid,ds){
+  const ctx = document.getElementById("chart-"+uid);
+  if(!ctx) return;
+  const palette = ["#b3892f","#2f7d52","#bb3b2e","#3a5a8c","#7a4b86"];
+  const maxRank = Math.max(...ds.chart.series.flatMap(s=>s.ranks.filter(v=>v!=null)),5);
+  if(charts[uid]) charts[uid].destroy();
+  charts[uid] = new Chart(ctx,{
+    type:"line",
+    data:{
+      labels:ds.chart.months,
+      datasets:ds.chart.series.map((s,i)=>({
+        label:s.name,data:s.ranks,borderColor:palette[i%palette.length],
+        backgroundColor:palette[i%palette.length],borderWidth:2.5,
+        tension:0.3,spanGaps:true,pointRadius:4,pointHoverRadius:6
+      }))
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:"nearest",intersect:false},
+      scales:{
+        y:{reverse:true,min:1,max:maxRank,ticks:{stepSize:1,font:{family:"'IBM Plex Mono'"},
+            callback:v=>"#"+v},title:{display:true,text:"名次"},grid:{color:"#e7e0d2"}},
+        x:{ticks:{font:{family:"'IBM Plex Mono'"}},grid:{display:false}}
+      },
+      plugins:{legend:{position:"bottom",labels:{font:{family:"'Noto Sans TC'",size:12},
+            usePointStyle:true,pointStyleWidth:8,padding:14,boxHeight:8}},
+        tooltip:{callbacks:{label:c=>` ${c.dataset.label}:第 ${c.parsed.y} 名`}}}
+    }
+  });
+}
+
+function init(){
+  const b = DATA.brand||{};
+  if(b.logo){
+    const img=document.getElementById("brandlogo");
+    img.onload=()=>{img.style.display="block";document.getElementById("brandmark").style.display="none";};
+    img.onerror=()=>{img.style.display="none";};
+    img.src=b.logo;
+  }
+  if(b.name) document.getElementById("brandmark").textContent=b.name;
+  if(b.tagline) document.getElementById("brandname").textContent=b.tagline;
+  if(b.eyebrow) document.getElementById("eyebrow").textContent=b.eyebrow;
+  if(b.reportTitle) document.getElementById("reportTitle").textContent=b.reportTitle;
+  if(b.subline) document.getElementById("subline").textContent=b.subline;
+  document.getElementById("genAt").textContent=(DATA.generatedAt||"").replace("T"," ").slice(0,16);
+
+  document.getElementById("metarow").innerHTML=(DATA.meta||[])
+    .map(m=>`<div class="m"><b>${m.value}</b><span>${m.label}</span></div>`).join("");
+
+  const tabbar=document.getElementById("tabbar"), main=document.getElementById("main");
+  DATA.sections.forEach((sec,si)=>{
+    const t=document.createElement("button");
+    t.className="tab"+(si===0?" active":"");
+    t.innerHTML=`${sec.title}<small>${sec.platform}</small>`;
+    t.onclick=()=>activate(si);
+    tabbar.appendChild(t);
+
+    const panel=document.createElement("section");
+    panel.className="panel"+(si===0?" active":"");
+    panel.id="panel-"+si;
+    const multi=sec.datasets.length>1;
+    let inner=`<div class="panelhead"><div><div class="plat">${sec.platform}</div><h2>${sec.title}</h2></div>`;
+    if(!multi){const d=sec.datasets[0];inner+=`<div class="when">最新 <b>${d.latestMonth}</b> · 比較 <b>${d.compareMonth}</b></div>`;}
+    inner+=`</div>`;
+    if(multi){
+      inner+=`<div class="subtoggle" id="sub-${si}">`+
+        sec.datasets.map((d,di)=>`<button class="${di===0?'on':''}" onclick="switchDS(${si},${di})">${d.label}</button>`).join("")+`</div>`;
+    }
+    inner+=`<div id="dswrap-${si}"></div>`;
+    panel.innerHTML=inner;
+    main.appendChild(panel);
+  });
+
+  DATA.sections.forEach((_,si)=>switchDS(si,0,true));
+}
+
+function switchDS(si,di,silent){
+  const sec=DATA.sections[si], ds=sec.datasets[di], uid=si+"-"+di;
+  document.getElementById("dswrap-"+si).innerHTML=renderDataset(ds,uid);
+  const sub=document.getElementById("sub-"+si);
+  if(sub)[...sub.children].forEach((c,i)=>c.classList.toggle("on",i===di));
+  drawChart(uid,ds);
+  if(!silent) window.scrollTo({top:document.querySelector("nav.tabs").offsetTop,behavior:"smooth"});
+}
+
+function activate(si){
+  document.querySelectorAll(".tab").forEach((t,i)=>t.classList.toggle("active",i===si));
+  document.querySelectorAll(".panel").forEach((p,i)=>p.classList.toggle("active",i===si));
+}
+
+async function boot(){
+  try {
+    const r = await fetch("./report.json", { cache: "no-store" });
+    if (r.ok) DATA = await r.json();      // 讀到 report.json → 用真實資料
+  } catch (e) {
+    // 本機直接雙擊開啟、或找不到 report.json 時,沿用內建範例資料
+  }
+  init();
+}
+
+boot();
+</script>
+</body>
+</html>
