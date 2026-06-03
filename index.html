@@ -118,9 +118,22 @@
   /* block scaffolding */
   .block{margin-top:40px}
   .block-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-  .block-eyebrow .num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--gold-deep);font-weight:600}
   .block-eyebrow h3{font-family:"Noto Serif TC",serif;font-size:21px;font-weight:700}
   .block-eyebrow .rule{flex:1;height:1px;background:var(--line)}
+  /* 說明 icon + 提示泡泡 */
+  .info{position:relative;display:inline-flex;align-items:center;justify-content:center;
+        width:17px;height:17px;flex:0 0 auto;opacity:.3;cursor:help;transition:opacity .15s;color:var(--ink)}
+  .info:hover,.info:focus{opacity:.85;outline:none}
+  .info svg{width:17px;height:17px;display:block}
+  .info .tip{position:absolute;left:-4px;top:160%;z-index:70;width:300px;max-width:74vw;
+        background:var(--ink);color:var(--paper);font-family:"Noto Sans TC",sans-serif;font-weight:300;
+        font-size:12.5px;line-height:1.7;letter-spacing:.01em;padding:12px 15px;border-radius:7px;
+        box-shadow:0 12px 32px -8px rgba(22,19,13,.55);opacity:0;visibility:hidden;transform:translateY(-4px);
+        transition:.16s;text-align:left;pointer-events:none}
+  .info .tip b{color:var(--gold);font-weight:500}
+  .info .tip::before{content:"";position:absolute;left:14px;top:-5px;width:10px;height:10px;
+        background:var(--ink);transform:rotate(45deg)}
+  .info:hover .tip,.info:focus .tip{opacity:1;visibility:visible;transform:translateY(0)}
 
   .card{background:var(--card);border:1px solid var(--line);border-radius:5px;box-shadow:var(--shadow)}
   .chartcard{padding:22px 22px 14px}
@@ -146,28 +159,24 @@
   .emptyline{color:var(--muted);font-size:13.5px;padding:8px 0;font-style:italic}
 
   /* AI analysis */
-  .analysis{padding:24px 26px;border-left:3px solid var(--gold);position:relative}
-  .analysis .ai-badge{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin-bottom:12px}
-  .analysis .ai-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
-  .analysis p{font-size:15px;color:var(--ink-soft);margin-bottom:11px}
+  .analysis{padding:30px 34px 28px;border-left:4px solid var(--gold);position:relative;
+            background:linear-gradient(135deg, rgba(179,137,47,0.06), rgba(179,137,47,0) 40%);}
+  .analysis p{font-size:15.5px;line-height:1.85;color:var(--ink-soft);margin-bottom:16px;letter-spacing:.01em}
   .analysis p:last-child{margin-bottom:0}
   .analysis strong{color:var(--ink);font-weight:700}
 
   /* table */
   .tablecard{overflow-x:auto}
-  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;table-layout:fixed}
   thead th{
-    background:var(--ink);color:var(--paper);font-weight:500;text-align:left;
+    background:var(--ink);color:var(--paper);font-weight:500;text-align:center;
     padding:11px 13px;white-space:nowrap;font-size:12px;letter-spacing:.04em;position:sticky;top:0;
   }
-  thead th.n{text-align:right}
-  tbody td{padding:10px 13px;border-bottom:1px solid var(--line);white-space:nowrap}
+  tbody td{padding:12px 13px;border-bottom:1px solid var(--line);text-align:center;word-break:break-word;vertical-align:middle}
   tbody tr:nth-child(even){background:rgba(239,233,222,.4)}
   tbody tr:hover{background:rgba(179,137,47,.07)}
-  td.n{font-family:"IBM Plex Mono",monospace;text-align:right;font-variant-numeric:tabular-nums}
-  td.name{font-weight:500;white-space:normal;min-width:160px}
-  .rankcell{display:flex;align-items:center;gap:8px;justify-content:flex-start}
-  .rankcol{width:130px}
+  td.name{font-weight:500;font-size:14.5px}
+  .rankcell{display:inline-flex;align-items:center;gap:10px;justify-content:center}
   .rankcell .rnum{font-family:"IBM Plex Mono",monospace;font-weight:600}
   .delta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:600;min-width:42px;text-align:right}
   .delta.up{color:var(--up)}.delta.down{color:var(--down)}.delta.flat{color:var(--muted)}.delta.new{color:var(--gold-deep)}
@@ -188,7 +197,7 @@
     </div>
     <div class="eyebrow" id="eyebrow">競品名次月報</div>
     <h1 class="title" id="reportTitle">LANDBASE 競品名次月報</h1>
-    <p class="subline" id="subline">每月彙整 EILERS &amp; FANTINI 與 REEL HOT 兩大平台的現場遊戲名次表現,追蹤新進榜、落榜、名次升降與供應商版圖變化。</p>
+    <p class="subline" id="subline">本月三類別冠軍皆由 Aristocrat 包辦(Spooky Link、Dragon Link、Phoenix Link 領銜),Light & Wonder 在 Core 中前段顯著滲透,IGT 與 AGS 則於榜尾活躍補位。</p>
     <div class="metarow" id="metarow"></div>
   </div>
 </header>
@@ -421,8 +430,19 @@ function deltaCell(rank, prev){
   return `<span class="delta flat">—</span>`;
 }
 
-function blockEyebrow(num,title){
-  return `<div class="block-eyebrow"><h3>${title}</h3><span class="rule"></span></div>`;
+const INFO_SVG = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+
+const INFO = {
+  month: "依本月榜單動態(奪冠、名次升降、新進榜、落榜及供應商表現),由 AI 整理出的本月重點摘要。",
+  trend: "聚焦近三個月(含本月)的名次走向、供應商版圖變化與長期動能,協助辨識趨勢而非單月波動。",
+  inout: "新進榜 = 本月在榜、上一可比月不在榜單的遊戲;落榜 = 上一可比月在榜、本月不在的遊戲(顯示其上月名次)。",
+  chart: "以本月前 5 名為基準,呈現他們在當年度各月的名次變化;縱軸越上代表名次越前。",
+  table: "本月完整名次,含「排名 / 遊戲名稱 / 供應商」。排名欄含升降標記:▲ 上升、▼ 下降、— 持平、NEW 本月新進。"
+};
+
+function blockEyebrow(title, info){
+  const tip = info ? `<span class="info" tabindex="0" role="button" aria-label="說明">${INFO_SVG}<span class="tip">${info}</span></span>` : "";
+  return `<div class="block-eyebrow"><h3>${title}</h3>${tip}<span class="rule"></span></div>`;
 }
 
 const FIXED_COLS=[{label:"排名"},{label:"遊戲名稱"},{label:"供應商"}];
@@ -454,14 +474,15 @@ function renderDataset(ds,uid){
   return `
     ${subtitle}
     <div class="block">
-      ${blockEyebrow("01","當年度前 5 名名次走勢")}
-      <div class="card chartcard">
-        <div class="chartwrap"><canvas id="chart-${uid}"></canvas></div>
-        <div class="chartnote">縱軸為名次(越上方名次越前) · 取 ${ds.year} 年資料,依最新月前 5 名繪製</div>
-      </div>
+      ${blockEyebrow("本月名次 AI 分析", INFO.month)}
+      <div class="card analysis">${ds.analysis.month}</div>
     </div>
     <div class="block">
-      ${blockEyebrow("02 · 03","本月進出榜")}
+      ${blockEyebrow("近三個月名次 AI 分析", INFO.trend)}
+      <div class="card analysis">${ds.analysis.trend}</div>
+    </div>
+    <div class="block">
+      ${blockEyebrow("本月進出榜", INFO.inout)}
       <div class="twocol">
         <div class="card listcard">
           <div class="lc-head"><span class="tag in">新進榜</span><span class="cnt">${(ds.newEntries||[]).length} 款</span></div>
@@ -474,15 +495,14 @@ function renderDataset(ds,uid){
       </div>
     </div>
     <div class="block">
-      ${blockEyebrow("04","本月名次 AI 分析")}
-      <div class="card analysis"><div class="ai-badge">AI 生成分析 · 本月</div>${ds.analysis.month}</div>
+      ${blockEyebrow("當年度前 5 名名次走勢", INFO.chart)}
+      <div class="card chartcard">
+        <div class="chartwrap"><canvas id="chart-${uid}"></canvas></div>
+        <div class="chartnote">取 ${ds.year} 年資料,依最新月前 5 名繪製</div>
+      </div>
     </div>
     <div class="block">
-      ${blockEyebrow("05","近三個月名次 AI 分析")}
-      <div class="card analysis"><div class="ai-badge">AI 生成分析 · 近三月趨勢</div>${ds.analysis.trend}</div>
-    </div>
-    <div class="block">
-      ${blockEyebrow("06","詳細遊戲排名列表")}
+      ${blockEyebrow("詳細遊戲排名列表", INFO.table)}
       ${renderTable(ds)}
     </div>`;
 }
@@ -507,12 +527,12 @@ function drawChart(uid,ds){
       responsive:true,maintainAspectRatio:false,
       interaction:{mode:"nearest",intersect:false},
       scales:{
-        y:{reverse:true,min:1,max:maxRank,ticks:{stepSize:1,font:{family:"'IBM Plex Mono'"},
-            callback:v=>"#"+v},title:{display:true,text:"名次"},grid:{color:"#e7e0d2"}},
+        y:{reverse:true,min:1,max:maxRank,ticks:{stepSize:1,font:{family:"'IBM Plex Mono'",size:12},
+            callback:v=>"#"+v},title:{display:false},grid:{color:"#e7e0d2"}},
         x:{ticks:{font:{family:"'IBM Plex Mono'"}},grid:{display:false}}
       },
-      plugins:{legend:{position:"bottom",labels:{font:{family:"'Noto Sans TC'",size:12},
-            usePointStyle:true,pointStyleWidth:8,padding:14,boxHeight:8}},
+      plugins:{legend:{position:"bottom",labels:{font:{family:"'Noto Sans TC'",size:14,weight:"600"},
+            usePointStyle:true,pointStyleWidth:10,padding:18,boxHeight:9}},
         tooltip:{callbacks:{label:c=>` ${c.dataset.label}:第 ${c.parsed.y} 名`}}}
     }
   });
