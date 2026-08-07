@@ -85,6 +85,48 @@
   .metarow .m span{font-size:11px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
 
   /* ---------- Tab nav ---------- */
+  /* ── 歷史月報切換 ───────────────────────────────────────────── */
+  .archive-bar{background:var(--paper-2);border-bottom:1px solid var(--line)}
+  .archive-inner{max-width:1080px;margin:0 auto;padding:0 28px;position:relative}
+  .archive-toggle{
+    display:flex;align-items:center;gap:10px;width:100%;
+    padding:11px 0;background:none;border:0;cursor:pointer;
+    color:var(--ink);font-family:"Noto Sans TC",sans-serif;font-size:.86rem;text-align:left;
+  }
+  .archive-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex:none}
+  .archive-label{font-weight:500;letter-spacing:.02em}
+  .archive-current{font-family:"IBM Plex Mono",monospace;font-size:.8rem;color:var(--muted)}
+  .archive-caret{margin-left:auto;color:var(--muted);transition:transform .18s ease;font-size:.75rem}
+  .archive-bar.is-open .archive-caret{transform:rotate(180deg)}
+  .archive-list{
+    position:absolute;left:28px;right:28px;top:100%;z-index:60;
+    background:var(--card);border:1px solid var(--line);border-top:0;
+    box-shadow:0 12px 28px -14px rgba(22,19,13,.28);
+    max-height:min(60vh,420px);overflow:auto;
+  }
+  .archive-item{display:block;padding:11px 18px;text-decoration:none;
+    border-bottom:1px solid var(--line);color:var(--ink)}
+  .archive-item:last-child{border-bottom:0}
+  .archive-item:hover{background:var(--paper)}
+  .archive-item.is-current{background:var(--paper-2)}
+  .archive-item.is-current .archive-month{color:var(--gold-deep)}
+  .archive-month{display:block;font-family:"IBM Plex Mono",monospace;
+    font-size:.9rem;font-weight:600;letter-spacing:.03em}
+  .archive-month em{font-style:normal;font-size:.68rem;font-family:"Noto Sans TC",sans-serif;
+    color:var(--gold-deep);border:1px solid currentColor;border-radius:2px;
+    padding:0 4px;margin-left:6px;vertical-align:1px}
+  .archive-meta{display:block;margin-top:3px;font-size:.72rem;color:var(--muted);line-height:1.55}
+  .archive-note{background:var(--gold);color:#fff;font-size:.78rem;text-align:center;
+    padding:7px 16px;font-family:"Noto Sans TC",sans-serif}
+  .archive-note a{color:#fff;text-decoration:underline}
+  .archive-err{background:var(--down);color:#fff;font-size:.8rem;text-align:center;
+    padding:9px 16px;font-family:"Noto Sans TC",sans-serif}
+  .archive-err a{color:#fff;text-decoration:underline}
+  @media (max-width:640px){
+    .archive-inner{padding:0 16px}
+    .archive-list{left:16px;right:16px}
+    .archive-meta{display:none}
+  }
   nav.tabs{position:sticky;top:0;z-index:50;background:rgba(247,243,236,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
   nav.tabs .wrap{display:flex;gap:4px;flex-wrap:wrap}
   .tab{
@@ -201,6 +243,8 @@
     <div class="metarow" id="metarow"></div>
   </div>
 </header>
+
+<div id="archiveSlot"></div>
 
 <nav class="tabs"><div class="wrap" id="tabbar"></div></nav>
 
@@ -597,13 +641,114 @@ function activate(si){
   document.querySelectorAll(".panel").forEach((p,i)=>p.classList.toggle("active",i===si));
 }
 
-async function boot(){
+/* =====================================================================
+   歷史月報切換
+   ---------------------------------------------------------------------
+   · 網址不帶參數      → 載入 ./report.json(最新一期,行為與原本相同)
+   · 網址帶 ?m=YYYY-MM → 載入 ./reports/YYYY-MM.json(該期封存檔)
+   · 封存索引由 archive_report.py 產生於 ./reports/index.json
+   · 索引不存在或僅一期時,不顯示選單,完全不影響原有頁面
+   ===================================================================== */
+const ARCHIVE_MONTH = (() => {
+  const m = new URLSearchParams(location.search).get("m");
+  return (m && /^\d{4}-\d{2}$/.test(m)) ? m : null;
+})();
+const REPORT_SRC = ARCHIVE_MONTH ? `./reports/${ARCHIVE_MONTH}.json` : "./report.json";
+
+function esc(s){
+  return String(s == null ? "" : s).replace(/[&<>"']/g,
+    c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+}
+
+async function renderArchiveBar(){
+  const slot = document.getElementById("archiveSlot");
+  if (!slot) return;
+  let idx = null;
   try {
-    const r = await fetch("./report.json", { cache: "no-store" });
-    if (r.ok) DATA = await r.json();      // 讀到 report.json → 用真實資料
-  } catch (e) {
-    // 本機直接雙擊開啟、或找不到 report.json 時,沿用內建範例資料
+    const r = await fetch("./reports/index.json", { cache: "no-store" });
+    if (r.ok) idx = await r.json();
+  } catch (e) { /* 無索引檔 → 不顯示,靜默略過 */ }
+  if (!idx || !Array.isArray(idx.reports) || idx.reports.length < 2) return;
+
+  const latest  = idx.reports[0].month;
+  const current = ARCHIVE_MONTH || latest;
+
+  const bar = document.createElement("div");
+  bar.className = "archive-bar";
+  bar.innerHTML =
+    '<div class="archive-inner">' +
+      '<button type="button" class="archive-toggle" aria-expanded="false">' +
+        '<span class="archive-dot"></span>' +
+        '<span class="archive-label">查看過往月報</span>' +
+        '<span class="archive-current">' + esc(current) +
+          (current === latest ? "（最新）" : "") + '</span>' +
+        '<span class="archive-caret">▾</span>' +
+      '</button>' +
+      '<div class="archive-list" hidden></div>' +
+    '</div>';
+
+  const list = bar.querySelector(".archive-list");
+  idx.reports.forEach(rep => {
+    const a = document.createElement("a");
+    a.className = "archive-item" + (rep.month === current ? " is-current" : "");
+    a.href = (rep.month === latest) ? "./" : ("./?m=" + encodeURIComponent(rep.month));
+    const meta = Array.isArray(rep.datasets)
+      ? rep.datasets.map(d => esc(d.label) + " #1 " + esc(d.top1 || "—")).join("　·　")
+      : "";
+    a.innerHTML =
+      '<span class="archive-month">' + esc(rep.month) +
+        (rep.month === latest ? ' <em>最新</em>' : "") + "</span>" +
+      '<span class="archive-meta">' + meta + "</span>";
+    list.appendChild(a);
+  });
+
+  const btn = bar.querySelector(".archive-toggle");
+  btn.addEventListener("click", () => {
+    const open = list.hasAttribute("hidden");
+    if (open) list.removeAttribute("hidden"); else list.setAttribute("hidden", "");
+    btn.setAttribute("aria-expanded", String(open));
+    bar.classList.toggle("is-open", open);
+  });
+  document.addEventListener("click", e => {
+    if (!bar.contains(e.target)){
+      list.setAttribute("hidden", "");
+      btn.setAttribute("aria-expanded", "false");
+      bar.classList.remove("is-open");
+    }
+  });
+
+  slot.appendChild(bar);
+
+  if (ARCHIVE_MONTH && ARCHIVE_MONTH !== latest){
+    const note = document.createElement("div");
+    note.className = "archive-note";
+    note.innerHTML = "正在檢視 <strong>" + esc(ARCHIVE_MONTH) +
+                     "</strong> 期月報（非最新）　<a href=\"./\">回到最新一期 →</a>";
+    slot.appendChild(note);
   }
+}
+
+async function boot(){
+  let loaded = false;
+  try {
+    const r = await fetch(REPORT_SRC, { cache: "no-store" });
+    if (r.ok){ DATA = await r.json(); loaded = true; }   // 讀到資料 → 用真實資料
+  } catch (e) {
+    // 本機直接雙擊開啟、或找不到檔案時,沿用內建範例資料
+  }
+  // 指定了期別卻讀不到 → 明確告知,不要默默顯示範例資料誤導讀者
+  if (!loaded && ARCHIVE_MONTH){
+    const slot = document.getElementById("archiveSlot");
+    if (slot){
+      const err = document.createElement("div");
+      err.className = "archive-err";
+      err.innerHTML = "找不到 <strong>" + esc(ARCHIVE_MONTH) +
+                      "</strong> 期的月報資料　<a href=\"./\">回到最新一期 →</a>";
+      slot.appendChild(err);
+    }
+  }
+  // 先渲染歷史列:它與圖表無關,不應因 init()(依賴 Chart.js CDN)失敗而消失
+  try { await renderArchiveBar(); } catch (e) { /* 選單失敗不影響報告本體 */ }
   init();
 }
 
