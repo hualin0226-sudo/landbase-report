@@ -1,0 +1,46 @@
+{
+  "reports": [
+    {
+      "month": "2026-09",
+      "datasets": [
+        {
+          "label": "Core Low Denom",
+          "top1": "Spooky Link - Yo Yeti"
+        },
+        {
+          "label": "Premium Leased",
+          "top1": "Monopoly - Big Board Bucks"
+        },
+        {
+          "label": "Premium Video",
+          "top1": "Monopoly Big Board Bucks"
+        },
+        {
+          "label": "Core Video",
+          "top1": "Huff N' Lots of Puff"
+        }
+      ]
+    },
+    {
+      "month": "2026-08",
+      "datasets": [
+        {
+          "label": "Core Low Denom",
+          "top1": "Spooky Link - Yo Yeti"
+        },
+        {
+          "label": "Premium Leased",
+          "top1": "Monopoly - Big Board Bucks"
+        },
+        {
+          "label": "Premium Video",
+          "top1": "Genghis Khan - Dragon Link"
+        },
+        {
+          "label": "Core Video",
+          "top1": "Huff N' Lots of Puff"
+        }
+      ]
+    }
+  ]
+}
