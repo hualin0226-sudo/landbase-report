@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LANDBASE 競品名次月報</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#16130d;
+    --ink-soft:#3a352b;
+    --paper:#f7f3ec;
+    --paper-2:#efe9de;
+    --card:#fffdf9;
+    --line:#ddd4c4;
+    --gold:#b3892f;
+    --gold-deep:#8c6618;
+    --up:#2f7d52;
+    --down:#bb3b2e;
+    --muted:#8a8273;
+    --shadow:0 1px 2px rgba(22,19,13,.04),0 8px 24px -12px rgba(22,19,13,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Noto Sans TC",sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    padding:1cm;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+
+  /* ---------- Header ---------- */
+  header.masthead{
+    background:var(--ink);
+    color:var(--paper);
+    border-bottom:3px solid var(--gold);
+    position:relative;
+    overflow:hidden;
+  }
+  header.masthead::after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(120% 90% at 85% -10%, rgba(179,137,47,.22), transparent 55%),
+      repeating-linear-gradient(135deg, rgba(255,255,255,.012) 0 2px, transparent 2px 7px);
+    pointer-events:none;
+  }
+  .masthead .wrap{padding-top:34px;padding-bottom:40px;position:relative;z-index:1}
+  .brandrow{display:flex;align-items:center;gap:14px;margin-bottom:30px}
+  .brandmark{
+    font-family:"Noto Serif TC",serif;font-weight:900;letter-spacing:.18em;
+    font-size:13px;color:var(--gold);text-transform:uppercase;
+    border:1px solid rgba(179,137,47,.5);padding:7px 13px;border-radius:2px;
+  }
+  .brandlogo{height:46px;width:auto;display:block}
+  .brandname{font-size:13px;letter-spacing:.32em;color:#cfc6b3;font-weight:300}
+  .eyebrow{font-size:12px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;font-weight:500;margin-bottom:14px}
+  h1.title{
+    font-family:"Noto Serif TC",serif;font-weight:900;
+    font-size:clamp(34px,6vw,58px);line-height:1.05;letter-spacing:.01em;
+    margin-bottom:18px;
+  }
+  .subline{color:#d8cfbd;font-weight:300;max-width:62ch;font-size:15.5px}
+  .metarow{
+    display:flex;flex-wrap:wrap;gap:26px;margin-top:26px;
+    padding-top:22px;border-top:1px solid rgba(255,255,255,.12);
+  }
+  .metarow .m b{display:block;font-family:"IBM Plex Mono",monospace;font-size:20px;color:var(--paper);font-weight:600}
+  .metarow .m span{font-size:11px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase}
+
+  /* ---------- Tab nav ---------- */
+  nav.tabs{position:sticky;top:0;z-index:50;background:rgba(247,243,236,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  nav.tabs .wrap{display:flex;gap:4px;flex-wrap:wrap}
+  .tab{
+    appearance:none;background:none;border:none;cursor:pointer;
+    font-family:"Noto Serif TC",serif;font-weight:700;font-size:15px;color:var(--muted);
+    padding:18px 18px 15px;border-bottom:3px solid transparent;transition:.18s;
+  }
+  .tab:hover{color:var(--ink-soft)}
+  .tab.active{color:var(--ink);border-bottom-color:var(--gold)}
+  .tab small{display:block;font-family:"Noto Sans TC";font-weight:400;font-size:10.5px;letter-spacing:.18em;color:var(--gold-deep);text-transform:uppercase;margin-top:3px}
+
+  /* ---------- Section ---------- */
+  section.panel{display:none;padding:48px 0 40px}
+  section.panel.active{display:block;animation:fade .4s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .panelhead{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:8px}
+  .panelhead h2{font-family:"Noto Serif TC",serif;font-size:30px;font-weight:900}
+  .panelhead .plat{font-size:11px;letter-spacing:.3em;color:var(--gold-deep);text-transform:uppercase;font-weight:500;margin-bottom:6px}
+  .panelhead .when{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted);text-align:right}
+  .panelhead .when b{color:var(--ink);font-weight:600}
+
+  /* sub-toggle (reel hot) */
+  .subtoggle{display:inline-flex;background:var(--paper-2);border:1px solid var(--line);border-radius:3px;padding:3px;margin:22px 0 4px}
+  .subtoggle button{
+    appearance:none;border:none;background:none;cursor:pointer;font-family:"Noto Sans TC";font-weight:500;
+    font-size:13.5px;color:var(--ink-soft);padding:7px 18px;border-radius:2px;transition:.15s;
+  }
+  .subtoggle button.on{background:var(--ink);color:var(--paper)}
+
+  /* block scaffolding */
+  .block{margin-top:40px}
+  .block-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .block-eyebrow .num{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--gold-deep);font-weight:600}
+  .block-eyebrow h3{font-family:"Noto Serif TC",serif;font-size:21px;font-weight:700}
+  .block-eyebrow .rule{flex:1;height:1px;background:var(--line)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:5px;box-shadow:var(--shadow)}
+  .chartcard{padding:22px 22px 14px}
+  .chartwrap{position:relative;height:340px}
+  .chartnote{font-size:12px;color:var(--muted);margin-top:10px;text-align:right}
+
+  /* entries / dropouts */
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:720px){.twocol{grid-template-columns:1fr}}
+  .listcard{padding:20px 22px}
+  .listcard .lc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .listcard .lc-head .tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;padding:4px 10px;border-radius:2px}
+  .tag.in{background:rgba(47,125,82,.12);color:var(--up)}
+  .tag.out{background:rgba(187,59,46,.1);color:var(--down)}
+  .listcard .lc-head .cnt{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted)}
+  .gameline{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px dashed var(--line)}
+  .gameline:first-of-type{border-top:none}
+  .gameline .rk{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:15px;min-width:34px;text-align:center;padding:3px 0;border-radius:3px}
+  .rk.in{background:rgba(47,125,82,.1);color:var(--up)}
+  .rk.out{background:rgba(187,59,46,.08);color:var(--down)}
+  .gameline .gn{font-weight:500;font-size:14.5px;flex:1}
+  .gameline .sp{font-size:12px;color:var(--muted)}
+  .emptyline{color:var(--muted);font-size:13.5px;padding:8px 0;font-style:italic}
+
+  /* AI analysis */
+  .analysis{padding:24px 26px;border-left:3px solid var(--gold);position:relative}
+  .analysis .ai-badge{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin-bottom:12px}
+  .analysis .ai-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold)}
+  .analysis p{font-size:15px;color:var(--ink-soft);margin-bottom:11px}
+  .analysis p:last-child{margin-bottom:0}
+  .analysis strong{color:var(--ink);font-weight:700}
+
+  /* table */
+  .tablecard{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  thead th{
+    background:var(--ink);color:var(--paper);font-weight:500;text-align:left;
+    padding:11px 13px;white-space:nowrap;font-size:12px;letter-spacing:.04em;position:sticky;top:0;
+  }
+  thead th.n{text-align:right}
+  tbody td{padding:10px 13px;border-bottom:1px solid var(--line);white-space:nowrap}
+  tbody tr:nth-child(even){background:rgba(239,233,222,.4)}
+  tbody tr:hover{background:rgba(179,137,47,.07)}
+  td.n{font-family:"IBM Plex Mono",monospace;text-align:right;font-variant-numeric:tabular-nums}
+  td.name{font-weight:500;white-space:normal;min-width:160px}
+  .rankcell{display:flex;align-items:center;gap:8px;justify-content:flex-start}
+  .rankcol{width:130px}
+  .rankcell .rnum{font-family:"IBM Plex Mono",monospace;font-weight:600}
+  .delta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:600;min-width:42px;text-align:right}
+  .delta.up{color:var(--up)}.delta.down{color:var(--down)}.delta.flat{color:var(--muted)}.delta.new{color:var(--gold-deep)}
+
+  footer{border-top:1px solid var(--line);margin-top:30px;padding:28px 0 60px;color:var(--muted);font-size:12.5px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer b{color:var(--ink-soft);font-family:"IBM Plex Mono",monospace;font-weight:500}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="brandrow">
+      <img id="brandlogo" class="brandlogo" alt="傳奇亞太科技" style="display:none">
+      <span class="brandmark" id="brandmark">傳奇亞太科技</span>
+      <span class="brandname" id="brandname">ALPHABET · LANDBASE INTELLIGENCE</span>
+    </div>
+    <div class="eyebrow" id="eyebrow">競品名次月報</div>
+    <h1 class="title" id="reportTitle">LANDBASE 競品名次月報</h1>
+    <p class="subline" id="subline">每月彙整 EILERS &amp; FANTINI 與 REEL HOT 兩大平台的現場遊戲名次表現,追蹤新進榜、落榜、名次升降與供應商版圖變化。</p>
+    <div class="metarow" id="metarow"></div>
+  </div>
+</header>
+
+<nav class="tabs"><div class="wrap" id="tabbar"></div></nav>
+
+<main id="main"></main>
+
+<footer><div class="wrap">
+  <span>傳奇亞太科技 · LANDBASE Intelligence</span>
+  <span>產製時間 <b id="genAt">—</b></span>
+</div></footer>
+
+<script>
+/* =====================================================================
+   報表資料來源
+   ---------------------------------------------------------------------
+   ▸ 部署到 GitHub Pages 時,把下方 SAMPLE_DATA 換成由 Apps Script 產出的
+     report.json,並改用:  const DATA = await fetch('./report.json').then(r=>r.json());
+   ▸ 目前內嵌範例資料,讓模板可獨立預覽。JSON 結構即下方物件的結構。
+   ===================================================================== */
+const SAMPLE_DATA = {
+  "generatedAt": "2026-06-03T10:15:05+08:00",
+  "brand": {
+    "name": "傳奇亞太科技",
+    "tagline": "ALPHABET · LANDBASE INTELLIGENCE",
+    "eyebrow": "競品名次月報",
+    "logo": "./logo.png",
+    "reportTitle": "LANDBASE 競品名次月報",
+    "subline": "每月彙整 EILERS & FANTINI 與 REEL HOT 兩大平台的現場遊戲名次表現,追蹤新進榜、落榜、名次升降與供應商版圖變化。"
+  },
+  "meta": [
+    {
+      "label": "報告月份",
+      "value": "2026-05"
+    },
+    {
+      "label": "涵蓋平台",
+      "value": "2"
+    },
+    {
+      "label": "遊戲類別",
+      "value": "3"
+    }
+  ],
+  "sections": [
+    {
+      "id": "core",
+      "title": "Core Low Denom",
+      "platform": "EILERS & FANTINI",
+      "datasets": [
+        {
+          "label": null,
+          "latestMonth": "2026-04",
+          "compareMonth": "2026-03",
+          "year": "2026",
+          "chart": {
+            "months": [
+              "2026-01",
+              "2026-02",
+              "2026-03",
+              "2026-04"
+            ],
+            "series": [
+              {
+                "name": "Spooky Link - Yo Yeti",
+                "ranks": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
+              {
+                "name": "Spooky Link - Go Ghost",
+                "ranks": [
+                  2,
+                  2,
+                  2,
+                  2
+                ]
+              },
+              {
+                "name": "Huff N Lots Of Puff",
+                "ranks": [
+                  null,
+                  null,
+                  4,
+                  3
+                ]
+              },
+              {
+                "name": "Spooky Link - Mo Mummy",
+                "ranks": [
+                  3,
+                  3,
+                  3,
+                  4
+                ]
+              },
+              {
+                "name": "Super Hot Flaming Pots - Mrs Wong",
+                "ranks": [
+                  9,
+                  7,
+                  6,
+                  5
+                ]
+              }
+            ]
+          },
+          "newEntries": [
+            {
+              "rank": 13,
+              "name": "Jin Ling Link - Emperors Throne",
+              "supplier": "IGT"
+            },
+            {
+              "rank": 14,
+              "name": "Jin Ling Link - Ruby Throne",
+              "supplier": "IGT"
+            },
+            {
+              "rank": 19,
+              "name": "Rakin Bacon! Cash Combo",
+              "supplier": "AGS"
+            },
+            {
+              "rank": 25,
+              "name": "Dragon Spin Saga - Fire & Water",
+              "supplier": "Light & Wonder"
+            }
+          ],
+          "dropouts": [
+            {
+              "prevRank": 14,
+              "name": "Money In The Bank - Pay Out West",
+              "supplier": "Konami"
+            },
+            {
+              "prevRank": 19,
+              "name": "Bomberman - Boom",
+              "supplier": "Konami"
+            },
+            {
+              "prevRank": 21,
+              "name": "Huff N Even More Puff",
+              "supplier": "Light & Wonder"
+            },
+            {
+              "prevRank": 25,
+              "name": "Ultimate Fast Cash - Dolphin Treasure",
+              "supplier": "Aristocrat"
+            }
+          ],
+          "analysis": {
+            "month": "<p><strong>Aristocrat</strong> 的 Spooky Link 系列續霸 Core 前段,<strong>Yo Yeti</strong>、<strong>Go Ghost</strong> 穩坐冠亞軍;<strong>Light & Wonder</strong> 的 <strong>Huff N Lots Of Puff</strong> 升上第 3、<strong>Super Hot Flaming Pots - Mrs Wong</strong> 升至第 5,中前段滲透力道明顯。</p><p>本月最大黑馬為 AGS 的 <strong>Rakin Bacon! Cash Combo</strong>,自榜外(上月第 53)直衝第 19;IGT 的 <strong>Jin Ling Link</strong> 系列(Emperors Throne、Ruby Throne)雙雙首度進榜第 13、14。落榜端由 <strong>Konami</strong> 兩款(Money In The Bank - Pay Out West、Bomberman - Boom)退出前段。</p>",
+            "trend": "<p>近三個月 Core 前四名幾乎由 <strong>Aristocrat</strong> 的 Spooky Link 系列完全把持,名次結構相當穩定。值得注意的是 <strong>Light & Wonder</strong> 的滲透:<strong>Mrs Wong</strong> 自年初第 9 一路攀升至第 5,Huff N Lots Of Puff 也在三月進榜後站穩前三。</p><p>供應商版圖上,Aristocrat 主導前段、Light & Wonder 與 IGT 在中段角力,<strong>Konami</strong> 則呈退潮。整體前段黏著度高,競爭主要發生在第 5 名之後的中段名次輪動。</p>"
+          },
+          "table": {
+            "rows": [
+              {
+                "rank": 1,
+                "prevRank": 1,
+                "name": "Spooky Link - Yo Yeti",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 2,
+                "prevRank": 2,
+                "name": "Spooky Link - Go Ghost",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 3,
+                "prevRank": 4,
+                "name": "Huff N Lots Of Puff",
+                "supplier": "Light & Wonder"
+              },
+              {
+                "rank": 4,
+                "prevRank": 3,
+                "name": "Spooky Link - Mo Mummy",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 5,
+                "prevRank": 6,
+                "name": "Super Hot Flaming Pots - Mrs Wong",
+                "supplier": "Light & Wonder"
+              },
+              {
+                "rank": 6,
+                "prevRank": 7,
+                "name": "Super Hot Flaming Pots - Mr Lee",
+                "supplier": "Light & Wonder"
+              },
+              {
+                "rank": 7,
+                "prevRank": 10,
+                "name": "Piggy Bankin - Break In",
+                "supplier": "Light & Wonder"
+              },
+              {
+                "rank": 8,
+                "prevRank": 11,
+                "name": "Stinkin Rich Stink Link - Hawaii",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 9,
+                "prevRank": 12,
+                "name": "Bao Zhu Zhao Fu Ignite - Red Prosperity",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 10,
+                "prevRank": 5,
+                "name": "Stinkin Rich Stink Link - Wild West",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 11,
+                "prevRank": 9,
+                "name": "Wolf Run - Wild Moon",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 12,
+                "prevRank": 18,
+                "name": "Lion Link - Wealth Of The Dragon",
+                "supplier": "Light & Wonder"
+              },
+              {
+                "rank": 13,
+                "prevRank": null,
+                "name": "Jin Ling Link - Emperors Throne",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 14,
+                "prevRank": null,
+                "name": "Jin Ling Link - Ruby Throne",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 15,
+                "prevRank": 23,
+                "name": "Inferno Link - Bengal Blaze",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 16,
+                "prevRank": 13,
+                "name": "Bao Zhu Zhao Fu Ignite - Blue Prosperity",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 17,
+                "prevRank": 25,
+                "name": "Mega Power - Buffalo",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 18,
+                "prevRank": 15,
+                "name": "Inferno Link - Siberian Spark",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 19,
+                "prevRank": 53,
+                "name": "Rakin Bacon! Cash Combo",
+                "supplier": "AGS"
+              },
+              {
+                "rank": 20,
+                "prevRank": 17,
+                "name": "Coin Trio Buffalo",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 21,
+                "prevRank": 20,
+                "name": "Mo Mo Mo Mummy Midnight Treasures",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 22,
+                "prevRank": 8,
+                "name": "Money In The Bank - Bacon Blvd",
+                "supplier": "Konami"
+              },
+              {
+                "rank": 23,
+                "prevRank": 22,
+                "name": "Bao Zhu Zhao Fu Ignite - Jade Prosperity",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 24,
+                "prevRank": 16,
+                "name": "Coyote Moon - Desert Nights",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 25,
+                "prevRank": 31,
+                "name": "Dragon Spin Saga - Fire & Water",
+                "supplier": "Light & Wonder"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "premium",
+      "title": "Premium Leased",
+      "platform": "EILERS & FANTINI",
+      "datasets": [
+        {
+          "label": null,
+          "latestMonth": "2026-04",
+          "compareMonth": "2026-03",
+          "year": "2026",
+          "chart": {
+            "months": [
+              "2026-01",
+              "2026-02",
+              "2026-03",
+              "2026-04"
+            ],
+            "series": [
+              {
+                "name": "Dragon Link - Golden Century",
+                "ranks": [
+                  1,
+                  1,
+                  1,
+                  1
+                ]
+              },
+              {
+                "name": "Dragon Link - Happy And Prosperous",
+                "ranks": [
+                  2,
+                  2,
+                  2,
+                  2
+                ]
+              },
+              {
+                "name": "Dragon Link - Autumn Moon",
+                "ranks": [
+                  4,
+                  3,
+                  3,
+                  3
+                ]
+              },
+              {
+                "name": "Phoenix Link - Queen Chiu",
+                "ranks": [
+                  7,
+                  5,
+                  9,
+                  4
+                ]
+              },
+              {
+                "name": "Dragon Link - Genghis Khan",
+                "ranks": [
+                  3,
+                  4,
+                  5,
+                  5
+                ]
+              }
+            ]
+          },
+          "newEntries": [
+            {
+              "rank": 8,
+              "name": "Monopoly - Big Board Bucks",
+              "supplier": "Aristocrat"
+            },
+            {
+              "rank": 22,
+              "name": "Dragon Link - Peacock Princess",
+              "supplier": "Aristocrat"
+            },
+            {
+              "rank": 24,
+              "name": "Lightning Dollar Link - Chica Bonita",
+              "supplier": "Aristocrat"
+            }
+          ],
+          "dropouts": [
+            {
+              "prevRank": 19,
+              "name": "Huff N Even More Puff Grand",
+              "supplier": "Light & Wonder"
+            },
+            {
+              "prevRank": 23,
+              "name": "Ultimate Fire Link - By The Bay",
+              "supplier": "Light & Wonder"
+            },
+            {
+              "prevRank": 25,
+              "name": "Kong Skull Island",
+              "supplier": "Light & Wonder"
+            }
+          ],
+          "analysis": {
+            "month": "<p>Premium Leased 由 <strong>Aristocrat</strong> 高度壟斷,<strong>前六名全數為其產品</strong>:Dragon Link 系列的 <strong>Golden Century</strong>(#1)、<strong>Happy And Prosperous</strong>(#2)、<strong>Autumn Moon</strong>(#3)穩居前列,<strong>Phoenix Link - Queen Chiu</strong> 自第 7 升至第 4。</p><p>焦點新機 <strong>Monopoly - Big Board Bucks</strong>(Aristocrat)首登即進第 8,後續動能值得追蹤。落榜端為 <strong>Light & Wonder</strong> 三款(Huff N Even More Puff Grand、Ultimate Fire Link - By The Bay、Kong Skull Island),反映其在 Premium 區段的相對弱勢。</p>",
+            "trend": "<p>近三個月 Premium Leased 呈現 <strong>Aristocrat 一家獨大</strong> 的格局,前五名長期由其包辦,核心是 <strong>Dragon Link</strong> 家族(Golden Century、Happy And Prosperous、Autumn Moon、Genghis Khan)構成的穩定基本盤。</p><p><strong>Phoenix Link - Queen Chiu</strong> 名次起伏較大(2 月第 5、3 月第 9、4 月回到第 4),是前段少數的變動點。<strong>Light & Wonder</strong> 僅能在中後段(Ultimate Fire Link 系列)維持存在感,短期內難以撼動 Aristocrat 在租賃機的主導地位。</p>"
+          },
+          "table": {
+            "rows": [
+              {
+                "rank": 1,
+                "prevRank": 1,
+                "name": "Dragon Link - Golden Century",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 2,
+                "prevRank": 2,
+                "name": "Dragon Link - Happy And Prosperous",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 3,
+                "prevRank": 3,
+                "name": "Dragon Link - Autumn Moon",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 4,
+                "prevRank": 7,
+                "name": "Phoenix Link - Queen Chiu",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 5,
+                "prevRank": 5,
+                "name": "Dragon Link - Genghis Khan",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 6,
+                "prevRank": 6,
+                "name": "Dragon Link - Panda Magic",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 7,
+                "prevRank": 8,
+                "name": "Buffalo - Mega Stampede",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 8,
+                "prevRank": null,
+                "name": "Monopoly - Big Board Bucks",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 9,
+                "prevRank": 9,
+                "name": "Bao Zhu Zhao Fu Firecracker Express - Red E..",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 10,
+                "prevRank": 12,
+                "name": "Phoenix Link - General Tso",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 11,
+                "prevRank": 11,
+                "name": "Bao Zhu Zhao Fu Firecracker Express - Purpl..",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 12,
+                "prevRank": 11,
+                "name": "Dragon Link - Peace And Long Life",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 13,
+                "prevRank": 13,
+                "name": "Ultimate Fire Link Triple Nova - Desert Nigh..",
+                "supplier": "Light & Wonder"
+              },
+              {
+                "rank": 14,
+                "prevRank": 18,
+                "name": "Ultimate Fire Link Triple Nova - Paradise Lig..",
+                "supplier": "Light & Wonder"
+              },
+              {
+                "rank": 15,
+                "prevRank": 4,
+                "name": "Dollar Storm Mega Grand Link - Buccaneer",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 16,
+                "prevRank": 14,
+                "name": "Buffalo Ultimate Stampede",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 17,
+                "prevRank": 16,
+                "name": "Wheel Of Fortune - Trio - Cash Link - Big Mo..",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 18,
+                "prevRank": 17,
+                "name": "Dragon Link - Silk Road",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 19,
+                "prevRank": 29,
+                "name": "Ultimate Fire Link - China Street",
+                "supplier": "Light & Wonder"
+              },
+              {
+                "rank": 20,
+                "prevRank": 21,
+                "name": "Buffalo Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 21,
+                "prevRank": 19,
+                "name": "Dollar Storm - Emperors Treasure",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 22,
+                "prevRank": 24,
+                "name": "Dragon Link - Peacock Princess",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 23,
+                "prevRank": 22,
+                "name": "Phoenix Link - Confucius Say",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 24,
+                "prevRank": 26,
+                "name": "Lightning Dollar Link - Chica Bonita",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 25,
+                "prevRank": 44,
+                "name": "Ultimate Fire Link - Glacier Gold",
+                "supplier": "Light & Wonder"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "reel",
+      "title": "REEL HOT",
+      "platform": "REEL HOT",
+      "datasets": [
+        {
+          "label": "Premium Video",
+          "latestMonth": "2026-05",
+          "compareMonth": "2026-01",
+          "year": "2026",
+          "chart": {
+            "months": [
+              "2026-01",
+              "2026-05"
+            ],
+            "series": [
+              {
+                "name": "Genghis Khan - Dragon Link",
+                "ranks": [
+                  4,
+                  1
+                ]
+              },
+              {
+                "name": "Queen Chiu - Phoenix Link",
+                "ranks": [
+                  12,
+                  2
+                ]
+              },
+              {
+                "name": "Buffalo Mega Stampede",
+                "ranks": [
+                  1,
+                  3
+                ]
+              },
+              {
+                "name": "Golden Century - Dragon Link",
+                "ranks": [
+                  2,
+                  4
+                ]
+              },
+              {
+                "name": "General Tso - Phoenix Link",
+                "ranks": [
+                  14,
+                  5
+                ]
+              }
+            ]
+          },
+          "newEntries": [
+            {
+              "rank": 26,
+              "name": "Wheel of Fortune Cash Link Big Money",
+              "supplier": "IGT"
+            },
+            {
+              "rank": 29,
+              "name": "Frankenstein Returns - Monsters Series",
+              "supplier": "LW"
+            },
+            {
+              "rank": 31,
+              "name": "Emperor - Magic Treasures Gold",
+              "supplier": "IGT"
+            },
+            {
+              "rank": 32,
+              "name": "Empress - Magic Treasures Gold",
+              "supplier": "IGT"
+            },
+            {
+              "rank": 34,
+              "name": "Checkered Flag - Lightning Dollar Link",
+              "supplier": "Aristocrat"
+            }
+          ],
+          "dropouts": [
+            {
+              "prevRank": 22,
+              "name": "We've Had Enuff - Huff N' Puff",
+              "supplier": "LW"
+            },
+            {
+              "prevRank": 24,
+              "name": "The Wizard of Oz - I'll Get You My Pretty",
+              "supplier": "LW"
+            },
+            {
+              "prevRank": 30,
+              "name": "Silk Road - Dragon Link",
+              "supplier": "Aristocrat"
+            },
+            {
+              "prevRank": 31,
+              "name": "Ultimate Fire Link Glacier Gold (Light & Wonder)",
+              "supplier": "LW"
+            },
+            {
+              "prevRank": 34,
+              "name": "Buffalo Diamond Extreme",
+              "supplier": "Aristocrat"
+            }
+          ],
+          "analysis": {
+            "month": "<p>REEL HOT 的 Premium Video 屬季度更新,本月(2026-05)出現明顯洗牌:<strong>Genghis Khan - Dragon Link</strong> 自第 4 登頂,<strong>Queen Chiu - Phoenix Link</strong> 自第 12 大幅躍升至第 2,<strong>General Tso - Phoenix Link</strong> 亦自第 14 衝進第 5 —— <strong>Phoenix Link</strong> 系列整體走強為本期主旋律。原冠軍 <strong>Buffalo Mega Stampede</strong> 退居第 3。</p><p>供應商方面 <strong>Aristocrat</strong> 幾乎獨占前段;<strong>IGT</strong> 則以 Magic Treasures Gold 系列(Emperor、Empress)新進第 31、32,開始於榜尾布局。</p>",
+            "trend": "<p>由於 Premium Video 每季才更新,目前年度可比的資料點為 2026-01 與 2026-05。對比之下,本季最大變化是 <strong>Phoenix Link</strong> 系列(Queen Chiu 12→2、General Tso 14→5)的大幅竄升,以及 <strong>Genghis Khan - Dragon Link</strong> 由第 4 登上榜首。</p><p>整體仍由 <strong>Aristocrat</strong> 壓倒性供給,Dragon Link 與 Phoenix Link 兩大家族構成前段主力;<strong>IGT</strong> 新機(Magic Treasures Gold 系列)雖僅在榜尾,但為少數非 Aristocrat 的新增動能,值得後續觀察。</p>"
+          },
+          "table": {
+            "rows": [
+              {
+                "rank": 1,
+                "prevRank": 4,
+                "name": "Genghis Khan - Dragon Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 2,
+                "prevRank": 12,
+                "name": "Queen Chiu - Phoenix Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 3,
+                "prevRank": 1,
+                "name": "Buffalo Mega Stampede",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 4,
+                "prevRank": 2,
+                "name": "Golden Century - Dragon Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 5,
+                "prevRank": 14,
+                "name": "General Tso - Phoenix Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 6,
+                "prevRank": 3,
+                "name": "Autumn Moon - Dragon Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 7,
+                "prevRank": 6,
+                "name": "Happy and Prosperous - Dragon Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 8,
+                "prevRank": 5,
+                "name": "Buffalo Ultimate Stampede (MarsX Flex)",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 9,
+                "prevRank": 9,
+                "name": "Panda Magic - Dragon Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 10,
+                "prevRank": 8,
+                "name": "Paradise Lights - Ultimate Fire Link Triple Nova",
+                "supplier": "LW"
+              },
+              {
+                "rank": 11,
+                "prevRank": 7,
+                "name": "Desert Nights - Ultimate Fire Link Triple Nova",
+                "supplier": "LW"
+              },
+              {
+                "rank": 12,
+                "prevRank": 10,
+                "name": "Buffalo Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 13,
+                "prevRank": 17,
+                "name": "Peace & Long Life - Dragon Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 14,
+                "prevRank": 21,
+                "name": "Chica Bonita - Lightning Dollar Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 15,
+                "prevRank": 32,
+                "name": "Confucius Say - Phoenix Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 16,
+                "prevRank": 19,
+                "name": "Ultimate Fire Link China Street (Light & Wonder)",
+                "supplier": "LW"
+              },
+              {
+                "rank": 17,
+                "prevRank": 11,
+                "name": "House of the Dragon",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 18,
+                "prevRank": 35,
+                "name": "Sensei Master - Phoenix Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 19,
+                "prevRank": 16,
+                "name": "Golden Gong - Dragon Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 20,
+                "prevRank": 13,
+                "name": "Huff N' Even More Puff Grand",
+                "supplier": "LW"
+              },
+              {
+                "rank": 21,
+                "prevRank": 25,
+                "name": "Spring Festival - Dragon Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 22,
+                "prevRank": 15,
+                "name": "Journey to the Planet Moolah",
+                "supplier": "LW"
+              },
+              {
+                "rank": 23,
+                "prevRank": 23,
+                "name": "Corrida de Toros - Lightning Dollar Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 24,
+                "prevRank": 18,
+                "name": "Egyptian Jewels - Dollar Storm",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 25,
+                "prevRank": 20,
+                "name": "Emperor's Treasure - Dollar Storm",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 26,
+                "prevRank": null,
+                "name": "Wheel of Fortune Cash Link Big Money",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 27,
+                "prevRank": 27,
+                "name": "Buccaneer - Dollar Storm Mega Grand Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 28,
+                "prevRank": 29,
+                "name": "Kung Fu Master - Lightning Dollar Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 29,
+                "prevRank": null,
+                "name": "Frankenstein Returns - Monsters Series",
+                "supplier": "LW"
+              },
+              {
+                "rank": 30,
+                "prevRank": 28,
+                "name": "Ultimate Fire Link Olvera Street (Light & Wonder)",
+                "supplier": "LW"
+              },
+              {
+                "rank": 31,
+                "prevRank": null,
+                "name": "Emperor - Magic Treasures Gold",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 32,
+                "prevRank": null,
+                "name": "Empress - Magic Treasures Gold",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 33,
+                "prevRank": 33,
+                "name": "Dragon's Riches - Lightning Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 34,
+                "prevRank": null,
+                "name": "Checkered Flag - Lightning Dollar Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 35,
+                "prevRank": 26,
+                "name": "Ninja Moon - Dollar Storm",
+                "supplier": "Aristocrat"
+              }
+            ]
+          }
+        },
+        {
+          "label": "Core Video",
+          "latestMonth": "2026-04",
+          "compareMonth": "2026-03",
+          "year": "2026",
+          "chart": {
+            "months": [
+              "2026-02",
+              "2026-03",
+              "2026-04"
+            ],
+            "series": [
+              {
+                "name": "Yo Yeti - Spooky Link",
+                "ranks": [
+                  1,
+                  1,
+                  1
+                ]
+              },
+              {
+                "name": "Go Ghost - Spooky Link",
+                "ranks": [
+                  2,
+                  2,
+                  2
+                ]
+              },
+              {
+                "name": "Piggy Bankin' Break In",
+                "ranks": [
+                  3,
+                  3,
+                  3
+                ]
+              },
+              {
+                "name": "Mo Mummy - Spooky Link",
+                "ranks": [
+                  4,
+                  4,
+                  4
+                ]
+              },
+              {
+                "name": "Huff N' Triple Puff",
+                "ranks": [
+                  5,
+                  5,
+                  5
+                ]
+              }
+            ]
+          },
+          "newEntries": [
+            {
+              "rank": 29,
+              "name": "Magic Lotus - Lanterns of the Dragon",
+              "supplier": "Aristocrat"
+            },
+            {
+              "rank": 30,
+              "name": "Sunset Express - Ticket to Win",
+              "supplier": "LW"
+            },
+            {
+              "rank": 34,
+              "name": "Blessings - Fa Fa Fa",
+              "supplier": "Aristocrat"
+            },
+            {
+              "rank": 35,
+              "name": "Fiesta De Las Calacas - Mariachi Fortunes Trio",
+              "supplier": "AGS"
+            }
+          ],
+          "dropouts": [
+            {
+              "prevRank": 11,
+              "name": "Jungle - Tiki Inferno",
+              "supplier": "AGS"
+            },
+            {
+              "prevRank": 27,
+              "name": "Stagecoach Riches",
+              "supplier": "LW"
+            },
+            {
+              "prevRank": 28,
+              "name": "Devil's Lock Slice 'n Dice",
+              "supplier": "Bluberi"
+            },
+            {
+              "prevRank": 33,
+              "name": "Arctic Express - Ticket to Win",
+              "supplier": "LW"
+            }
+          ],
+          "analysis": {
+            "month": "<p>REEL HOT 的 Core Video 前五名連月維持不動:<strong>Yo Yeti</strong>、<strong>Go Ghost</strong>(均屬 Aristocrat Spooky Link 系列)、<strong>Piggy Bankin' Break In</strong>、<strong>Mo Mummy</strong>、<strong>Huff N' Triple Puff</strong>,前段結構極為穩固。</p><p>變動集中在中段:<strong>Bluberi</strong> 的 <strong>Cash Raccoons</strong> 自第 34 躍升第 21(↑13)最為亮眼。新進榜以 <strong>AGS</strong>(Fiesta De Las Calacas)與 <strong>Aristocrat</strong>(Magic Lotus、Blessings)為主;落榜則包含 Jungle - Tiki Inferno、Stagecoach Riches 等中後段機種。</p>",
+            "trend": "<p>近三個月(2026-02 至 04)Core Video 前五名完全固定,<strong>Aristocrat</strong> 與 <strong>Light & Wonder</strong> 平分前段,名次結構是四個類別中最穩定的。</p><p>競爭主要發生在中後段:<strong>Aristocrat</strong> 的 Ultimate Fast Cash 與 Firecracker Fortunes 系列持續擴張,<strong>AGS</strong> 的 Mariachi Fortunes 系列與 <strong>Bluberi</strong> 則在名次間輪動。整體呈現「前段穩定、中段活躍」的態勢。</p>"
+          },
+          "table": {
+            "rows": [
+              {
+                "rank": 1,
+                "prevRank": 1,
+                "name": "Yo Yeti - Spooky Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 2,
+                "prevRank": 2,
+                "name": "Go Ghost - Spooky Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 3,
+                "prevRank": 3,
+                "name": "Piggy Bankin' Break In",
+                "supplier": "LW"
+              },
+              {
+                "rank": 4,
+                "prevRank": 4,
+                "name": "Mo Mummy - Spooky Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 5,
+                "prevRank": 5,
+                "name": "Huff N' Triple Puff",
+                "supplier": "LW"
+              },
+              {
+                "rank": 6,
+                "prevRank": 8,
+                "name": "Wonder 4 Buffalo",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 7,
+                "prevRank": 6,
+                "name": "Hawaii - Stinkin' Rich Stink Link",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 8,
+                "prevRank": 9,
+                "name": "Mrs. Wong - Super Hot Flaming Pots",
+                "supplier": "LW"
+              },
+              {
+                "rank": 9,
+                "prevRank": 10,
+                "name": "Red Prosperity - Bao Zhu Zhao Fu Ignite",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 10,
+                "prevRank": 12,
+                "name": "Mr. Lee - Super Hot Flaming Pots",
+                "supplier": "LW"
+              },
+              {
+                "rank": 11,
+                "prevRank": 13,
+                "name": "Coyote Moon Desert Nights",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 12,
+                "prevRank": 15,
+                "name": "Blue Prosperity - Bao Zhu Zhao Fu Ignite",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 13,
+                "prevRank": 7,
+                "name": "Wild West - Stinkin' Rich Stink Link",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 14,
+                "prevRank": 16,
+                "name": "Dragon Emperor - Ultimate Fast Cash",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 15,
+                "prevRank": 17,
+                "name": "Northern Star - Firecracker Fortunes",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 16,
+                "prevRank": 20,
+                "name": "Buffalo - Coin Trio",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 17,
+                "prevRank": 21,
+                "name": "Golden Pyramid - Ultimate Fast Cash",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 18,
+                "prevRank": 24,
+                "name": "Dolphin Treasure - Ultimate Fast Cash",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 19,
+                "prevRank": 14,
+                "name": "Fire & Water - Dragon Spin Saga (Core)",
+                "supplier": "LW"
+              },
+              {
+                "rank": 20,
+                "prevRank": 18,
+                "name": "Wealth of the Dragon - Lion Link",
+                "supplier": "LW"
+              },
+              {
+                "rank": 21,
+                "prevRank": 34,
+                "name": "Cash Raccoons",
+                "supplier": "Bluberi"
+              },
+              {
+                "rank": 22,
+                "prevRank": 29,
+                "name": "Western Horizon - Firecracker Fortunes",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 23,
+                "prevRank": 22,
+                "name": "Flamin' Fiesta - 4 Up",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 24,
+                "prevRank": 32,
+                "name": "Enchanted Flame - Lanterns of the Dragon",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 25,
+                "prevRank": 19,
+                "name": "Fiesta De Los Vivos - Mariachi Fortunes Trio",
+                "supplier": "AGS"
+              },
+              {
+                "rank": 26,
+                "prevRank": 31,
+                "name": "Mariachi Bonita - Ultimate Fast Cash",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 27,
+                "prevRank": 23,
+                "name": "Festival Frenzy - Fortune Frenzy",
+                "supplier": "AGS"
+              },
+              {
+                "rank": 28,
+                "prevRank": 26,
+                "name": "Chili Lucha - 4 Up",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 29,
+                "prevRank": null,
+                "name": "Magic Lotus - Lanterns of the Dragon",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 30,
+                "prevRank": null,
+                "name": "Sunset Express - Ticket to Win",
+                "supplier": "LW"
+              },
+              {
+                "rank": 31,
+                "prevRank": 30,
+                "name": "Buffalo - Mega Power",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 32,
+                "prevRank": 25,
+                "name": "Earth & Air - Dragon Spin Saga",
+                "supplier": "LW"
+              },
+              {
+                "rank": 33,
+                "prevRank": 35,
+                "name": "Dynasty Frenzy - Fortune Frenzy",
+                "supplier": "AGS"
+              },
+              {
+                "rank": 34,
+                "prevRank": null,
+                "name": "Blessings - Fa Fa Fa",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 35,
+                "prevRank": null,
+                "name": "Fiesta De Las Calacas - Mariachi Fortunes Trio",
+                "supplier": "AGS"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+};
+
+/* ============================ Render ============================ */
+let DATA = SAMPLE_DATA;            // 開啟時會嘗試讀取 ./report.json,讀不到才用此內建範例
+const fmt = {
+  money:v=>v==null?"—":"$"+Number(v).toFixed(2),
+  num:v=>v==null?"—":(Number.isInteger(v)?v.toLocaleString():Number(v).toFixed(2)),
+};
+const charts = {};
+
+function deltaCell(rank, prev){
+  if(prev==null) return `<span class="delta new">NEW</span>`;
+  const d = prev - rank;
+  if(d>0) return `<span class="delta up">▲ ${d}</span>`;
+  if(d<0) return `<span class="delta down">▼ ${Math.abs(d)}</span>`;
+  return `<span class="delta flat">—</span>`;
+}
+
+function blockEyebrow(num,title){
+  return `<div class="block-eyebrow"><h3>${title}</h3><span class="rule"></span></div>`;
+}
+
+const FIXED_COLS=[{label:"排名"},{label:"遊戲名稱"},{label:"供應商"}];
+function renderTable(ds){
+  const head=FIXED_COLS.map(c=>`<th>${c.label}</th>`).join("");
+  const body=ds.table.rows.map(r=>{
+    const name=r.name??r.title??"—";
+    return `<tr>`
+      +`<td class="rankcol"><span class="rankcell"><span class="rnum">${r.rank}</span>${deltaCell(r.rank,r.prevRank)}</span></td>`
+      +`<td class="name">${name}</td>`
+      +`<td>${r.supplier??"—"}</td>`
+      +`</tr>`;
+  }).join("");
+  return `<div class="card tablecard"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+
+function renderList(items,kind){
+  const isIn = kind==="in";
+  if(!items||!items.length) return `<p class="emptyline">本月無${isIn?"新進榜":"落榜"}遊戲</p>`;
+  return items.map(g=>{
+    const rk = isIn ? g.rank : g.prevRank;
+    const nm = g.name || g.title;
+    return `<div class="gameline"><span class="rk ${kind}">${rk}</span><span class="gn">${nm}</span><span class="sp">${g.supplier||""}</span></div>`;
+  }).join("");
+}
+
+function renderDataset(ds,uid){
+  const subtitle = ds.label ? `<div class="panelhead"><div></div><div class="when">最新 <b>${ds.latestMonth}</b> · 比較 <b>${ds.compareMonth}</b></div></div>` : "";
+  return `
+    ${subtitle}
+    <div class="block">
+      ${blockEyebrow("01","當年度前 5 名名次走勢")}
+      <div class="card chartcard">
+        <div class="chartwrap"><canvas id="chart-${uid}"></canvas></div>
+        <div class="chartnote">縱軸為名次(越上方名次越前) · 取 ${ds.year} 年資料,依最新月前 5 名繪製</div>
+      </div>
+    </div>
+    <div class="block">
+      ${blockEyebrow("02 · 03","本月進出榜")}
+      <div class="twocol">
+        <div class="card listcard">
+          <div class="lc-head"><span class="tag in">新進榜</span><span class="cnt">${(ds.newEntries||[]).length} 款</span></div>
+          ${renderList(ds.newEntries,"in")}
+        </div>
+        <div class="card listcard">
+          <div class="lc-head"><span class="tag out">落榜</span><span class="cnt">${(ds.dropouts||[]).length} 款</span></div>
+          ${renderList(ds.dropouts,"out")}
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      ${blockEyebrow("04","本月名次 AI 分析")}
+      <div class="card analysis"><div class="ai-badge">AI 生成分析 · 本月</div>${ds.analysis.month}</div>
+    </div>
+    <div class="block">
+      ${blockEyebrow("05","近三個月名次 AI 分析")}
+      <div class="card analysis"><div class="ai-badge">AI 生成分析 · 近三月趨勢</div>${ds.analysis.trend}</div>
+    </div>
+    <div class="block">
+      ${blockEyebrow("06","詳細遊戲排名列表")}
+      ${renderTable(ds)}
+    </div>`;
+}
+
+function drawChart(uid,ds){
+  const ctx = document.getElementById("chart-"+uid);
+  if(!ctx) return;
+  const palette = ["#b3892f","#2f7d52","#bb3b2e","#3a5a8c","#7a4b86"];
+  const maxRank = Math.max(...ds.chart.series.flatMap(s=>s.ranks.filter(v=>v!=null)),5);
+  if(charts[uid]) charts[uid].destroy();
+  charts[uid] = new Chart(ctx,{
+    type:"line",
+    data:{
+      labels:ds.chart.months,
+      datasets:ds.chart.series.map((s,i)=>({
+        label:s.name,data:s.ranks,borderColor:palette[i%palette.length],
+        backgroundColor:palette[i%palette.length],borderWidth:2.5,
+        tension:0.3,spanGaps:true,pointRadius:4,pointHoverRadius:6
+      }))
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:"nearest",intersect:false},
+      scales:{
+        y:{reverse:true,min:1,max:maxRank,ticks:{stepSize:1,font:{family:"'IBM Plex Mono'"},
+            callback:v=>"#"+v},title:{display:true,text:"名次"},grid:{color:"#e7e0d2"}},
+        x:{ticks:{font:{family:"'IBM Plex Mono'"}},grid:{display:false}}
+      },
+      plugins:{legend:{position:"bottom",labels:{font:{family:"'Noto Sans TC'",size:12},
+            usePointStyle:true,pointStyleWidth:8,padding:14,boxHeight:8}},
+        tooltip:{callbacks:{label:c=>` ${c.dataset.label}:第 ${c.parsed.y} 名`}}}
+    }
+  });
+}
+
+function init(){
+  const b = DATA.brand||{};
+  if(b.logo){
+    const img=document.getElementById("brandlogo");
+    img.onload=()=>{img.style.display="block";document.getElementById("brandmark").style.display="none";};
+    img.onerror=()=>{img.style.display="none";};
+    img.src=b.logo;
+  }
+  if(b.name) document.getElementById("brandmark").textContent=b.name;
+  if(b.tagline) document.getElementById("brandname").textContent=b.tagline;
+  if(b.eyebrow) document.getElementById("eyebrow").textContent=b.eyebrow;
+  if(b.reportTitle) document.getElementById("reportTitle").textContent=b.reportTitle;
+  if(b.subline) document.getElementById("subline").textContent=b.subline;
+  document.getElementById("genAt").textContent=(DATA.generatedAt||"").replace("T"," ").slice(0,16);
+
+  document.getElementById("metarow").innerHTML=(DATA.meta||[])
+    .map(m=>`<div class="m"><b>${m.value}</b><span>${m.label}</span></div>`).join("");
+
+  const tabbar=document.getElementById("tabbar"), main=document.getElementById("main");
+  DATA.sections.forEach((sec,si)=>{
+    const t=document.createElement("button");
+    t.className="tab"+(si===0?" active":"");
+    t.innerHTML=`${sec.title}<small>${sec.platform}</small>`;
+    t.onclick=()=>activate(si);
+    tabbar.appendChild(t);
+
+    const panel=document.createElement("section");
+    panel.className="panel"+(si===0?" active":"");
+    panel.id="panel-"+si;
+    const multi=sec.datasets.length>1;
+    let inner=`<div class="panelhead"><div><div class="plat">${sec.platform}</div><h2>${sec.title}</h2></div>`;
+    if(!multi){const d=sec.datasets[0];inner+=`<div class="when">最新 <b>${d.latestMonth}</b> · 比較 <b>${d.compareMonth}</b></div>`;}
+    inner+=`</div>`;
+    if(multi){
+      inner+=`<div class="subtoggle" id="sub-${si}">`+
+        sec.datasets.map((d,di)=>`<button class="${di===0?'on':''}" onclick="switchDS(${si},${di})">${d.label}</button>`).join("")+`</div>`;
+    }
+    inner+=`<div id="dswrap-${si}"></div>`;
+    panel.innerHTML=inner;
+    main.appendChild(panel);
+  });
+
+  DATA.sections.forEach((_,si)=>switchDS(si,0,true));
+}
+
+function switchDS(si,di,silent){
+  const sec=DATA.sections[si], ds=sec.datasets[di], uid=si+"-"+di;
+  document.getElementById("dswrap-"+si).innerHTML=renderDataset(ds,uid);
+  const sub=document.getElementById("sub-"+si);
+  if(sub)[...sub.children].forEach((c,i)=>c.classList.toggle("on",i===di));
+  drawChart(uid,ds);
+  if(!silent) window.scrollTo({top:document.querySelector("nav.tabs").offsetTop,behavior:"smooth"});
+}
+
+function activate(si){
+  document.querySelectorAll(".tab").forEach((t,i)=>t.classList.toggle("active",i===si));
+  document.querySelectorAll(".panel").forEach((p,i)=>p.classList.toggle("active",i===si));
+}
+
+async function boot(){
+  try {
+    const r = await fetch("./report.json", { cache: "no-store" });
+    if (r.ok) DATA = await r.json();      // 讀到 report.json → 用真實資料
+  } catch (e) {
+    // 本機直接雙擊開啟、或找不到 report.json 時,沿用內建範例資料
+  }
+  init();
+}
+
+boot();
+</script>
+</body>
+</html>
