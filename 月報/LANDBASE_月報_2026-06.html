@@ -1500,7 +1500,7 @@ const INFO_SVG = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" st
 
 const INFO = {
   month: "依本月榜單動態(奪冠、名次升降、新進榜、落榜及供應商表現),由 AI 整理出的本月重點摘要。",
-  trend: "聚焦近三個月(含本月)的名次走向、供應商版圖變化與長期動能,協助辨識趨勢而非單月波動。",
+  trend: "聚焦本年度歷次資料點(含本月)的名次走向、供應商版圖變化與長期動能,協助辨識趨勢而非單月波動。",
   inout: "新進榜 = 本月在榜、上一可比月不在榜單的遊戲;落榜 = 上一可比月在榜、本月不在的遊戲(顯示其上月名次)。",
   chart: "以本月前 5 名為基準,呈現他們在當年度各月的名次變化;縱軸越上代表名次越前。",
   table: "本月完整名次,含「排名 / 遊戲名稱 / 供應商」。排名欄含升降標記:▲ 上升、▼ 下降、— 持平、NEW 本月新進。"
@@ -1544,7 +1544,7 @@ function renderDataset(ds,uid){
       <div class="card analysis">${ds.analysis.month}</div>
     </div>
     <div class="block">
-      ${blockEyebrow("近三個月名次 AI 分析", INFO.trend)}
+      ${blockEyebrow("名次趨勢 AI 分析", INFO.trend)}
       <div class="card analysis">${ds.analysis.trend}</div>
     </div>
     <div class="block">
