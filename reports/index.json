@@ -4,14 +4,6 @@
       "month": "2026-09",
       "datasets": [
         {
-          "label": "Core Low Denom",
-          "top1": "Spooky Link - Yo Yeti"
-        },
-        {
-          "label": "Premium Leased",
-          "top1": "Monopoly - Big Board Bucks"
-        },
-        {
           "label": "Premium Video",
           "top1": "Monopoly Big Board Bucks"
         },
@@ -24,14 +16,6 @@
     {
       "month": "2026-08",
       "datasets": [
-        {
-          "label": "Core Low Denom",
-          "top1": "Spooky Link - Yo Yeti"
-        },
-        {
-          "label": "Premium Leased",
-          "top1": "Monopoly - Big Board Bucks"
-        },
         {
           "label": "Premium Video",
           "top1": "Genghis Khan - Dragon Link"

@@ -7,12 +7,12 @@
 <!-- ↓ 分享預覽縮圖(Open Graph)。部署到 GitHub Pages 後,把下面 2 個網址改成你的實際網址 ↓ -->
 <meta property="og:type" content="article">
 <meta property="og:title" content="LANDBASE 競品名次月報｜2026-05">
-<meta property="og:description" content="EILERS & FANTINI 與 REEL HOT 兩大平台現場遊戲名次月報:新進榜、落榜、名次升降與供應商版圖。">
+<meta property="og:description" content="REEL HOT 現場遊戲名次月報:新進榜、落榜、名次升降與供應商版圖。">
 <meta property="og:image" content="https://hualin0226-sudo.github.io/landbase-report/share-cover.png">
 <meta property="og:url" content="https://hualin0226-sudo.github.io/landbase-report/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="LANDBASE 競品名次月報｜2026-05">
-<meta name="twitter:description" content="EILERS & FANTINI 與 REEL HOT 兩大平台現場遊戲名次月報。">
+<meta name="twitter:description" content="REEL HOT 現場遊戲名次月報。">
 <meta name="twitter:image" content="https://hualin0226-sudo.github.io/landbase-report/share-cover.png">
 <!-- ↑ 分享預覽縮圖 ↑ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -239,7 +239,7 @@
     </div>
     <div class="eyebrow" id="eyebrow">競品名次月報</div>
     <h1 class="title" id="reportTitle">LANDBASE 競品名次月報</h1>
-    <p class="subline" id="subline">本月三類別冠軍皆由 Aristocrat 包辦(Spooky Link、Dragon Link、Phoenix Link 領銜),Light & Wonder 在 Core 中前段顯著滲透,IGT 與 AGS 則於榜尾活躍補位。</p>
+    <p class="subline" id="subline">每月彙整 REEL HOT 現場遊戲名次表現,追蹤新進榜、落榜、名次升降與供應商版圖變化。</p>
     <div class="metarow" id="metarow"></div>
   </div>
 </header>
@@ -728,6 +728,24 @@ async function renderArchiveBar(){
   }
 }
 
+/* =====================================================================
+   隱藏平台
+   ---------------------------------------------------------------------
+   · 列在 HIDDEN_PLATFORMS 的平台不渲染;JSON 內資料保留,清空陣列即恢復
+   · 「涵蓋平台」「遊戲類別」依實際顯示的區塊重算
+   ===================================================================== */
+const HIDDEN_PLATFORMS = ["EILERS & FANTINI"];
+
+function applyVisibility(){
+  DATA.sections = (DATA.sections||[]).filter(s => !HIDDEN_PLATFORMS.includes(s.platform));
+  const platforms = new Set(DATA.sections.map(s => s.platform)).size;
+  const categories = DATA.sections.reduce((n, s) => n + s.datasets.length, 0);
+  (DATA.meta||[]).forEach(m => {
+    if (m.label === "涵蓋平台") m.value = String(platforms);
+    if (m.label === "遊戲類別") m.value = String(categories);
+  });
+}
+
 async function boot(){
   let loaded = false;
   try {
@@ -747,6 +765,7 @@ async function boot(){
       slot.appendChild(err);
     }
   }
+  applyVisibility();
   // 先渲染歷史列:它與圖表無關,不應因 init()(依賴 Chart.js CDN)失敗而消失
   try { await renderArchiveBar(); } catch (e) { /* 選單失敗不影響報告本體 */ }
   init();

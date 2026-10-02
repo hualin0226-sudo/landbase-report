@@ -177,7 +177,7 @@
     </div>
     <div class="eyebrow" id="eyebrow">競品名次月報</div>
     <h1 class="title" id="reportTitle">LANDBASE 競品名次月報</h1>
-    <p class="subline" id="subline">每月彙整 EILERS &amp; FANTINI 與 REEL HOT 兩大平台的現場遊戲名次表現,追蹤新進榜、落榜、名次升降與供應商版圖變化。</p>
+    <p class="subline" id="subline">每月彙整 REEL HOT 現場遊戲名次表現,追蹤新進榜、落榜、名次升降與供應商版圖變化。</p>
     <div class="metarow" id="metarow"></div>
   </div>
 </header>
@@ -207,7 +207,7 @@ const SAMPLE_DATA = {
     "eyebrow": "競品名次月報",
     "logo": "./logo.png",
     "reportTitle": "LANDBASE 競品名次月報",
-    "subline": "每月彙整 EILERS & FANTINI 與 REEL HOT 兩大平台的現場遊戲名次表現,追蹤新進榜、落榜、名次升降與供應商版圖變化。"
+    "subline": "每月彙整 REEL HOT 現場遊戲名次表現,追蹤新進榜、落榜、名次升降與供應商版圖變化。"
   },
   "meta": [
     {
@@ -1574,6 +1574,24 @@ function activate(si){
   document.querySelectorAll(".panel").forEach((p,i)=>p.classList.toggle("active",i===si));
 }
 
+/* =====================================================================
+   隱藏平台
+   ---------------------------------------------------------------------
+   · 列在 HIDDEN_PLATFORMS 的平台不渲染;內嵌資料保留,清空陣列即恢復
+   · 「涵蓋平台」「遊戲類別」依實際顯示的區塊重算
+   ===================================================================== */
+const HIDDEN_PLATFORMS = ["EILERS & FANTINI"];
+
+function applyVisibility(){
+  DATA.sections = (DATA.sections||[]).filter(s => !HIDDEN_PLATFORMS.includes(s.platform));
+  const platforms = new Set(DATA.sections.map(s => s.platform)).size;
+  const categories = DATA.sections.reduce((n, s) => n + s.datasets.length, 0);
+  (DATA.meta||[]).forEach(m => {
+    if (m.label === "涵蓋平台") m.value = String(platforms);
+    if (m.label === "遊戲類別") m.value = String(categories);
+  });
+}
+
 async function boot(){
   try {
     const r = await fetch("./report.json", { cache: "no-store" });
@@ -1581,6 +1599,7 @@ async function boot(){
   } catch (e) {
     // 本機直接雙擊開啟、或找不到 report.json 時,沿用內建範例資料
   }
+  applyVisibility();
   init();
 }
 
