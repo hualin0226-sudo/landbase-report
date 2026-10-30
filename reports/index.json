@@ -1,6 +1,19 @@
 {
   "reports": [
     {
+      "month": "2026-10",
+      "datasets": [
+        {
+          "label": "Premium Video",
+          "top1": "Monopoly Big Board Bucks"
+        },
+        {
+          "label": "Core Video",
+          "top1": "Mrs. Mummy - Fo Mo Mummy"
+        }
+      ]
+    },
+    {
       "month": "2026-09",
       "datasets": [
         {

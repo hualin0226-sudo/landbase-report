@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-10-02T09:43:18+08:00",
+  "generatedAt": "2026-10-30T10:40:26+08:00",
   "brand": {
     "name": "傳奇亞太科技",
     "tagline": "ALPHABET · LANDBASE INTELLIGENCE",
     "eyebrow": "競品名次月報",
     "logo": "./logo.png",
     "reportTitle": "LANDBASE 競品名次月報",
-    "subline": "本期更新 REEL HOT Premium Video(資料月 2026-09):Aristocrat 的 Monopoly Big Board Bucks 新進即奪榜首,前九名全由 Aristocrat 包辦,Dragon Link／Phoenix Link 家族續居前段,Light & Wonder 佔 11 款新進中的 5 款,新增供給最多。REEL HOT Core Video(資料月 2026-08)本期無新資料,維持上期。"
+    "subline": "本期更新 REEL HOT Core Video(資料月 2026-10,比較 2026-08):Aristocrat 的 Fo Mo Mummy 雙款新進即包辦第 1、2 名,Thunder Empire Link 三款同期進榜,前十名九款為 Aristocrat;Light & Wonder 在榜款數自 10 款降至 5 款,上期榜首 Huff N' Lots of Puff 退至第 7。Premium Video(資料月 2026-09)本期無新資料,維持上期。"
   },
   "meta": [
     {
       "label": "報告月份",
-      "value": "2026-09"
+      "value": "2026-10"
     },
     {
       "label": "涵蓋平台",
@@ -989,8 +989,8 @@
         },
         {
           "label": "Core Video",
-          "latestMonth": "2026-08",
-          "compareMonth": "2026-07",
+          "latestMonth": "2026-10",
+          "compareMonth": "2026-08",
           "year": "2026",
           "chart": {
             "months": [
@@ -999,18 +999,32 @@
               "2026-04",
               "2026-06",
               "2026-07",
-              "2026-08"
+              "2026-08",
+              "2026-10"
             ],
             "series": [
               {
-                "name": "Huff N' Lots of Puff",
+                "name": "Mrs. Mummy - Fo Mo Mummy",
                 "ranks": [
                   null,
                   null,
                   null,
                   null,
-                  1,
+                  null,
+                  null,
                   1
+                ]
+              },
+              {
+                "name": "Mr. Mummy - Fo Mo Mummy",
+                "ranks": [
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  2
                 ]
               },
               {
@@ -1021,7 +1035,8 @@
                   1,
                   1,
                   2,
-                  2
+                  2,
+                  3
                 ]
               },
               {
@@ -1032,28 +1047,19 @@
                   2,
                   2,
                   3,
-                  3
-                ]
-              },
-              {
-                "name": "Mo Mummy - Spooky Link",
-                "ranks": [
-                  4,
-                  4,
-                  4,
                   3,
-                  4,
                   4
                 ]
               },
               {
-                "name": "Mrs. Wong - Super Hot Flaming Pots",
+                "name": "Inca Diamonds - Thunder Empire Link",
                 "ranks": [
-                  7,
-                  9,
-                  8,
-                  5,
-                  5,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
                   5
                 ]
               }
@@ -1061,273 +1067,313 @@
           },
           "newEntries": [
             {
-              "rank": 11,
-              "name": "Cats, Hats, N More Bats - Lock N More Link",
-              "supplier": "LW"
-            },
-            {
-              "rank": 22,
-              "name": "Piggy N' More Bankin' - Lock N More Link",
-              "supplier": "LW"
-            },
-            {
-              "rank": 28,
-              "name": "Eureka N More Blastin' - Lock N More Link",
-              "supplier": "LW"
-            },
-            {
-              "rank": 31,
-              "name": "Magic Emperor - Thunder Empire Link",
+              "rank": 1,
+              "name": "Mrs. Mummy - Fo Mo Mummy",
               "supplier": "Aristocrat"
+            },
+            {
+              "rank": 2,
+              "name": "Mr. Mummy - Fo Mo Mummy",
+              "supplier": "Aristocrat"
+            },
+            {
+              "rank": 5,
+              "name": "Inca Diamonds - Thunder Empire Link",
+              "supplier": "Aristocrat"
+            },
+            {
+              "rank": 6,
+              "name": "King Samurai - Thunder Empire Link",
+              "supplier": "Aristocrat"
+            },
+            {
+              "rank": 16,
+              "name": "Mongolian Empress - Thunder Empire Link",
+              "supplier": "Aristocrat"
+            },
+            {
+              "rank": 18,
+              "name": "Wolf Run Wild Moon",
+              "supplier": "IGT"
+            },
+            {
+              "rank": 24,
+              "name": "King Khufu",
+              "supplier": "IGT"
             },
             {
               "rank": 33,
-              "name": "Wonder 4 Collection",
+              "name": "Purple Prosperity - Bao Zhu Zhao Fu Ignite",
               "supplier": "Aristocrat"
+            },
+            {
+              "rank": 34,
+              "name": "Smokin' Train",
+              "supplier": "Bluberi"
             }
           ],
           "dropouts": [
             {
-              "prevRank": 30,
-              "name": "Fire & Water - Dragon Spin Saga (Core)",
+              "prevRank": 20,
+              "name": "Piggy Bankin' Break In",
               "supplier": "LW"
+            },
+            {
+              "prevRank": 22,
+              "name": "Piggy N' More Bankin' - Lock N More Link",
+              "supplier": "LW"
+            },
+            {
+              "prevRank": 24,
+              "name": "Stagecoach Riches",
+              "supplier": "LW"
+            },
+            {
+              "prevRank": 27,
+              "name": "Northern Star - Firecracker Fortunes",
+              "supplier": "Aristocrat"
+            },
+            {
+              "prevRank": 28,
+              "name": "Eureka N More Blastin' - Lock N More Link",
+              "supplier": "LW"
+            },
+            {
+              "prevRank": 29,
+              "name": "Buffalo - Mega Power",
+              "supplier": "Aristocrat"
             },
             {
               "prevRank": 31,
-              "name": "Hawaii - Stinkin' Rich Stink Link",
-              "supplier": "IGT"
+              "name": "Magic Emperor - Thunder Empire Link",
+              "supplier": "Aristocrat"
             },
             {
               "prevRank": 32,
-              "name": "Huff N' Triple Puff",
-              "supplier": "LW"
-            },
-            {
-              "prevRank": 33,
-              "name": "Huff N' Even More Puff",
-              "supplier": "LW"
-            },
-            {
-              "prevRank": 35,
-              "name": "Flamin' Fiesta - 4 Up",
+              "name": "Western Horizon - Firecracker Fortunes",
               "supplier": "Aristocrat"
+            },
+            {
+              "prevRank": 34,
+              "name": "Triple Blast from the Planet Moolah",
+              "supplier": "LW"
             }
           ],
           "analysis": {
-            "month": "<p>本月 Core Video 前五名全數持平、無變動:<strong>Light & Wonder</strong> 的 <strong>Huff N' Lots of Puff</strong> 續居第 1(進榜後次月),<strong>Yo Yeti - Spooky Link</strong>、<strong>Go Ghost - Spooky Link</strong>、<strong>Mo Mummy - Spooky Link</strong> 續居第 2 至第 4,<strong>Mrs. Wong - Super Hot Flaming Pots</strong> 續居第 5,前段本月未見新機衝擊。</p><p>主要動能來自中後段的新系列投放:<strong>Light & Wonder</strong> 的 <strong>Lock N More Link</strong> 系列三款同期進榜 —— Cats, Hats, N More Bats 第 11、Piggy N' More Bankin' 第 22、Eureka N More Blastin' 第 28;<strong>Aristocrat</strong> 則以新系列 <strong>Thunder Empire Link</strong>(Magic Emperor 第 31)與 <strong>Wonder 4 Collection</strong>(第 33)回應。惟須留意 LW 自家的 <strong>Piggy Bankin' Break In</strong> 同期自第 8 跌至第 20,為前十名機種中最大跌幅,不排除與同廠新機 Piggy N' More Bankin' 進榜存在系列內排擠(名額固定下的替換,無法僅憑名次斷定)。退榜五款中,舊世代的 <strong>Huff N' Triple Puff</strong>(前第 32)與 <strong>Huff N' Even More Puff</strong>(前第 33)雙雙退出,與新世代 Huff N' Lots of Puff 續居榜首形成對照。</p>",
-            "trend": "<p>近六個資料月(2026 年 2、3、4、6、7、8 月;5 月為 Premium Video 更新月、Core Video 未更新),前段結構在 7 月發生一次轉變後,本月維持穩定:<strong>Yo Yeti</strong> 與 <strong>Go Ghost</strong> 於 2 至 6 月固定居第 1、第 2,7 月起因 <strong>Huff N' Lots of Puff</strong> 進榜登頂而各退一名,本月延續此格局未再變動;<strong>Mrs. Wong - Super Hot Flaming Pots</strong> 則自年初第 7~9 名升至第 5,並連三期(6、7、8 月)站穩。</p><p>供應商層面,<strong>Light & Wonder</strong> 近兩期動作最積極:除以 Huff N' Lots of Puff 取得榜首,本月再以 Lock N More Link 系列三款擴大中段布局;<strong>Aristocrat</strong> 則靠 Spooky Link 家族守住前段,並開始投放 Thunder Empire Link、Wonder 4 等新系列。惟本月多數新進款為首月上榜、處於蜜月期,名次能否延續須待後續資料;<strong>IGT</strong> 在本類別持續退潮,本月僅存 Coyote Moon Desert Nights 一款且自第 24 跌至第 30,是否完全退出值得追蹤。</p>"
+            "month": "<p>REEL HOT 的 Core Video 本期資料月為 2026-10,比較基準為上一期 Core Video(2026-08;2026-09 刊出的是 Premium Video)。本期前段明顯洗牌:<strong>Aristocrat</strong> 的 <strong>Fo Mo Mummy</strong> 雙款新進即包辦前兩名 —— <strong>Mrs. Mummy - Fo Mo Mummy</strong> 第 1、<strong>Mr. Mummy - Fo Mo Mummy</strong> 第 2;<strong>Thunder Empire Link</strong> 系列另有三款新進(Inca Diamonds 第 5、King Samurai 第 6、Mongolian Empress 第 16),同系列 8 月進榜的 Magic Emperor 則退出前 35 名。Spooky Link 家族各退一至六名:Yo Yeti 自第 2 退至第 3、Go Ghost 自第 3 退至第 4、Mo Mummy 自第 4 退至第 10。前十名中九款為 Aristocrat。</p><p><strong>Light &amp; Wonder</strong> 本期明顯失守:上期榜首 <strong>Huff N' Lots of Puff</strong> 退至第 7;Super Hot Flaming Pots 雙款大幅下滑 —— <strong>Mr. Lee</strong> 自第 7 跌至第 27(本期最大跌幅)、<strong>Mrs. Wong</strong> 自第 5 跌至第 19;8 月同期進榜的 Lock N More Link 三款中,Piggy N' More Bankin' 與 Eureka N More Blastin' 已退榜,Cats, Hats, N More Bats 自第 11 跌至第 22。升幅方面以 Aristocrat 的 <strong>Ultimate Fast Cash</strong> 家族最一致:Mariachi Bonita 自第 25 升至第 14、Golden Pyramid 自第 18 升至第 8、Dragon Emperor 自第 17 升至第 9、Dolphin Treasure 自第 21 升至第 17。本期共 9 款新進(Aristocrat 6、IGT 2、Bluberi 1)、9 款退榜(Light &amp; Wonder 5、Aristocrat 4)。</p>",
+            "trend": "<p>2026 年度 Core Video 至本期共七個資料點(2、3、4、6、7、8、10 月;5、9 月為 Premium Video 刊出月),本期與上一期間隔兩個月,以下陳述的是 8 月到 10 月之間的位移。</p><p>前段結構在本期出現年內最大的一次改變:<strong>Yo Yeti</strong> 與 <strong>Go Ghost</strong> 在 2 至 6 月固定居第 1、第 2,7、8 月因 Huff N' Lots of Puff 登頂各退一名,本期再因 Fo Mo Mummy 雙款進榜續退至第 3、第 4;Huff N' Lots of Puff 則在 7、8 月連居榜首後退至第 7。新機進榜即佔據前段,與 Premium Video 9 月 Monopoly Big Board Bucks 新進奪冠的情況類似,惟兩榜類別不同,不宜直接比較名次。</p><p>供應商結構上,<strong>Aristocrat</strong> 在榜款數自 22 款增至 24 款,<strong>Light &amp; Wonder</strong> 自 10 款降至 5 款;<strong>IGT</strong> 自 1 款(Coyote Moon Desert Nights)增至 3 款,新進 Wolf Run Wild Moon(第 18)與 King Khufu(第 24),前期在此類別的退潮本期出現回升,是否延續須待下一期 Core Video 資料。另 <strong>Bluberi</strong> 以 Smokin' Train 新進第 34。本期多數新進款處於上榜初期,名次能否維持仍須觀察。</p>"
           },
           "table": {
             "rows": [
               {
                 "rank": 1,
-                "prevRank": 1,
-                "name": "Huff N' Lots of Puff",
-                "supplier": "LW"
+                "prevRank": null,
+                "name": "Mrs. Mummy - Fo Mo Mummy",
+                "supplier": "Aristocrat"
               },
               {
                 "rank": 2,
+                "prevRank": null,
+                "name": "Mr. Mummy - Fo Mo Mummy",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 3,
                 "prevRank": 2,
                 "name": "Yo Yeti - Spooky Link",
                 "supplier": "Aristocrat"
               },
               {
-                "rank": 3,
+                "rank": 4,
                 "prevRank": 3,
                 "name": "Go Ghost - Spooky Link",
                 "supplier": "Aristocrat"
               },
               {
-                "rank": 4,
+                "rank": 5,
+                "prevRank": null,
+                "name": "Inca Diamonds - Thunder Empire Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 6,
+                "prevRank": null,
+                "name": "King Samurai - Thunder Empire Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 7,
+                "prevRank": 1,
+                "name": "Huff N' Lots of Puff",
+                "supplier": "LW"
+              },
+              {
+                "rank": 8,
+                "prevRank": 18,
+                "name": "Golden Pyramid - Ultimate Fast Cash",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 9,
+                "prevRank": 17,
+                "name": "Dragon Emperor - Ultimate Fast Cash",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 10,
                 "prevRank": 4,
                 "name": "Mo Mummy - Spooky Link",
                 "supplier": "Aristocrat"
               },
               {
-                "rank": 5,
-                "prevRank": 5,
-                "name": "Mrs. Wong - Super Hot Flaming Pots",
-                "supplier": "LW"
+                "rank": 11,
+                "prevRank": 12,
+                "name": "Siberian Spark - Inferno Link",
+                "supplier": "Aristocrat"
               },
               {
-                "rank": 6,
+                "rank": 12,
+                "prevRank": 16,
+                "name": "Bengal Blaze - Inferno Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 13,
                 "prevRank": 6,
                 "name": "Red Prosperity - Bao Zhu Zhao Fu Ignite",
                 "supplier": "Aristocrat"
               },
               {
-                "rank": 7,
+                "rank": 14,
+                "prevRank": 25,
+                "name": "Mariachi Bonita - Ultimate Fast Cash",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 15,
+                "prevRank": 9,
+                "name": "Buffalo - Coin Trio",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 16,
+                "prevRank": null,
+                "name": "Mongolian Empress - Thunder Empire Link",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 17,
+                "prevRank": 21,
+                "name": "Dolphin Treasure - Ultimate Fast Cash",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 18,
+                "prevRank": null,
+                "name": "Wolf Run Wild Moon",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 19,
+                "prevRank": 5,
+                "name": "Mrs. Wong - Super Hot Flaming Pots",
+                "supplier": "LW"
+              },
+              {
+                "rank": 20,
+                "prevRank": 19,
+                "name": "Magic Lotus - Lanterns of the Dragon",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 21,
+                "prevRank": 8,
+                "name": "Blue Prosperity - Bao Zhu Zhao Fu Ignite",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 22,
+                "prevRank": 11,
+                "name": "Cats, Hats, N More Bats - Lock N More Link",
+                "supplier": "LW"
+              },
+              {
+                "rank": 23,
+                "prevRank": 13,
+                "name": "Wealth of the Dragon - Lion Link",
+                "supplier": "LW"
+              },
+              {
+                "rank": 24,
+                "prevRank": null,
+                "name": "King Khufu",
+                "supplier": "IGT"
+              },
+              {
+                "rank": 25,
+                "prevRank": 33,
+                "name": "Wonder 4 Collection",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 26,
+                "prevRank": 15,
+                "name": "Pepper Fiesta - Spicy Fortunes",
+                "supplier": "Aristocrat"
+              },
+              {
+                "rank": 27,
                 "prevRank": 7,
                 "name": "Mr. Lee - Super Hot Flaming Pots",
                 "supplier": "LW"
               },
               {
-                "rank": 8,
+                "rank": 28,
                 "prevRank": 10,
-                "name": "Blue Prosperity - Bao Zhu Zhao Fu Ignite",
-                "supplier": "Aristocrat"
-              },
-              {
-                "rank": 9,
-                "prevRank": 12,
-                "name": "Buffalo - Coin Trio",
-                "supplier": "Aristocrat"
-              },
-              {
-                "rank": 10,
-                "prevRank": 9,
                 "name": "Diamond Fiesta - Spicy Fortunes",
                 "supplier": "Aristocrat"
               },
               {
-                "rank": 11,
-                "prevRank": null,
-                "name": "Cats, Hats, N More Bats - Lock N More Link",
-                "supplier": "LW"
-              },
-              {
-                "rank": 12,
-                "prevRank": 20,
-                "name": "Siberian Spark - Inferno Link",
-                "supplier": "Aristocrat"
-              },
-              {
-                "rank": 13,
-                "prevRank": 15,
-                "name": "Wealth of the Dragon - Lion Link",
-                "supplier": "LW"
-              },
-              {
-                "rank": 14,
-                "prevRank": 13,
-                "name": "Bomberman Boom",
-                "supplier": "Konami"
-              },
-              {
-                "rank": 15,
-                "prevRank": 11,
-                "name": "Pepper Fiesta - Spicy Fortunes",
-                "supplier": "Aristocrat"
-              },
-              {
-                "rank": 16,
-                "prevRank": 14,
-                "name": "Bengal Blaze - Inferno Link",
-                "supplier": "Aristocrat"
-              },
-              {
-                "rank": 17,
-                "prevRank": 18,
-                "name": "Dragon Emperor - Ultimate Fast Cash",
-                "supplier": "Aristocrat"
-              },
-              {
-                "rank": 18,
-                "prevRank": 16,
-                "name": "Golden Pyramid - Ultimate Fast Cash",
-                "supplier": "Aristocrat"
-              },
-              {
-                "rank": 19,
-                "prevRank": 21,
-                "name": "Magic Lotus - Lanterns of the Dragon",
-                "supplier": "Aristocrat"
-              },
-              {
-                "rank": 20,
-                "prevRank": 8,
-                "name": "Piggy Bankin' Break In",
-                "supplier": "LW"
-              },
-              {
-                "rank": 21,
-                "prevRank": 19,
-                "name": "Dolphin Treasure - Ultimate Fast Cash",
-                "supplier": "Aristocrat"
-              },
-              {
-                "rank": 22,
-                "prevRank": null,
-                "name": "Piggy N' More Bankin' - Lock N More Link",
-                "supplier": "LW"
-              },
-              {
-                "rank": 23,
-                "prevRank": 22,
+                "rank": 29,
+                "prevRank": 23,
                 "name": "Enchanted Flame - Lanterns of the Dragon",
                 "supplier": "Aristocrat"
               },
               {
-                "rank": 24,
-                "prevRank": 17,
-                "name": "Stagecoach Riches",
-                "supplier": "LW"
-              },
-              {
-                "rank": 25,
-                "prevRank": 28,
-                "name": "Mariachi Bonita - Ultimate Fast Cash",
+                "rank": 30,
+                "prevRank": 35,
+                "name": "Wonder 4 Buffalo",
                 "supplier": "Aristocrat"
               },
               {
-                "rank": 26,
-                "prevRank": 25,
-                "name": "Bomberman Blast",
+                "rank": 31,
+                "prevRank": 14,
+                "name": "Bomberman Boom",
                 "supplier": "Konami"
               },
               {
-                "rank": 27,
-                "prevRank": 23,
-                "name": "Northern Star - Firecracker Fortunes",
-                "supplier": "Aristocrat"
-              },
-              {
-                "rank": 28,
-                "prevRank": null,
-                "name": "Eureka N More Blastin' - Lock N More Link",
-                "supplier": "LW"
-              },
-              {
-                "rank": 29,
-                "prevRank": 26,
-                "name": "Buffalo - Mega Power",
-                "supplier": "Aristocrat"
-              },
-              {
-                "rank": 30,
-                "prevRank": 24,
+                "rank": 32,
+                "prevRank": 30,
                 "name": "Coyote Moon Desert Nights",
                 "supplier": "IGT"
               },
               {
-                "rank": 31,
-                "prevRank": null,
-                "name": "Magic Emperor - Thunder Empire Link",
-                "supplier": "Aristocrat"
-              },
-              {
-                "rank": 32,
-                "prevRank": 27,
-                "name": "Western Horizon - Firecracker Fortunes",
-                "supplier": "Aristocrat"
-              },
-              {
                 "rank": 33,
                 "prevRank": null,
-                "name": "Wonder 4 Collection",
+                "name": "Purple Prosperity - Bao Zhu Zhao Fu Ignite",
                 "supplier": "Aristocrat"
               },
               {
                 "rank": 34,
-                "prevRank": 34,
-                "name": "Triple Blast from the Planet Moolah",
-                "supplier": "LW"
+                "prevRank": null,
+                "name": "Smokin' Train",
+                "supplier": "Bluberi"
               },
               {
                 "rank": 35,
-                "prevRank": 29,
-                "name": "Wonder 4 Buffalo",
-                "supplier": "Aristocrat"
+                "prevRank": 26,
+                "name": "Bomberman Blast",
+                "supplier": "Konami"
               }
             ]
           }
